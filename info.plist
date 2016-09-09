@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>org.jeef.emoji</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>157AEB44-CD30-445B-B751-7CEDE94BC8A0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>22DEF54C-B689-4E7A-9C9C-1D73DC17BC80</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>C2DC4C2B-6E56-41E8-825E-28095D9C7DD0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>20318ECF-9A92-49D1-84FD-A3DB37C2066E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Jeff Stein</string>
+	<key>description</key>
+	<string>An emoji workflow that includes the taco</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Emoji Taco</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>transient</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>22DEF54C-B689-4E7A-9C9C-1D73DC17BC80</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>e</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>query=$1
+
+python esearch.py $query</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Emoji Search</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>157AEB44-CD30-445B-B751-7CEDE94BC8A0</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>python buildDataFiles.py</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>20318ECF-9A92-49D1-84FD-A3DB37C2066E</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>init emoji</string>
+				<key>subtext</key>
+				<string>Scrape unicode.org for latest emoji set</string>
+				<key>text</key>
+				<string>Initialize the Emojis</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>C2DC4C2B-6E56-41E8-825E-28095D9C7DD0</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>This Emoji workflow was built beacuse there were ZERO taco emoji workflows out there
+
+use 
+
+e to search for emojis</string>
+	<key>uidata</key>
+	<dict>
+		<key>157AEB44-CD30-445B-B751-7CEDE94BC8A0</key>
+		<dict>
+			<key>note</key>
+			<string>search for emoji</string>
+			<key>xpos</key>
+			<integer>100</integer>
+			<key>ypos</key>
+			<integer>50</integer>
+		</dict>
+		<key>20318ECF-9A92-49D1-84FD-A3DB37C2066E</key>
+		<dict>
+			<key>note</key>
+			<string>run the download script</string>
+			<key>xpos</key>
+			<integer>310</integer>
+			<key>ypos</key>
+			<integer>230</integer>
+		</dict>
+		<key>22DEF54C-B689-4E7A-9C9C-1D73DC17BC80</key>
+		<dict>
+			<key>note</key>
+			<string>copy emoji to clipboard and paste into open applicaiton</string>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>50</integer>
+		</dict>
+		<key>C2DC4C2B-6E56-41E8-825E-28095D9C7DD0</key>
+		<dict>
+			<key>note</key>
+			<string>Initialize the Emoji workflow by downloading data from unicode.org</string>
+			<key>xpos</key>
+			<integer>90</integer>
+			<key>ypos</key>
+			<integer>230</integer>
+		</dict>
+	</dict>
+	<key>version</key>
+	<string>0.1.2</string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
