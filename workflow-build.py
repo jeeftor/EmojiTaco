@@ -57,6 +57,7 @@ LOGPATH = os.path.expanduser('~/Library/Logs/MyScripts.log')
 LOGSIZE = 1024 * 1024 * 5  # 5 megabytes
 
 
+
 EXCLUDE_PATTERNS = [
     '*.pyc',
     '*.log',
@@ -69,8 +70,9 @@ EXCLUDE_PATTERNS = [
     '*.dist-info',
     '*.idea',
     '.idea',
-    '.git'
-
+    '.git',
+    './eenv/*',
+    './img/*.png'
 ]
 
 
