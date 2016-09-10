@@ -16,7 +16,11 @@ def main(wf):
         exit()
 
 
-    query = str(wf.args[0])
+    try:
+        query = str(wf.args[0])
+    except:
+        query = ''
+
 
     with open('emoji.csv') as f:
         for line in f:
