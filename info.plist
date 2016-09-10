@@ -68,11 +68,11 @@
 				<key>alfredfiltersresults</key>
 				<false/>
 				<key>argumenttype</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>e</string>
+				<string>{var:keyword}</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -153,11 +153,9 @@ python esearch.py $query</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string>This Emoji workflow was built beacuse there were ZERO taco emoji workflows out there
+	<string>This Emoji workflow was built because there were ZERO taco emoji workflows out there.
 
-use 
-
-e to search for emojis</string>
+use `e` to search for emoji. You can change the keyword in the settings of the workflow.</string>
 	<key>uidata</key>
 	<dict>
 		<key>157AEB44-CD30-445B-B751-7CEDE94BC8A0</key>
@@ -197,9 +195,14 @@ e to search for emojis</string>
 			<integer>230</integer>
 		</dict>
 	</dict>
+	<key>variables</key>
+	<dict>
+		<key>keyword</key>
+		<string>e</string>
+	</dict>
 	<key>version</key>
 	<string>0.8.3</string>
 	<key>webaddress</key>
-	<string></string>
+	<string>https://github.com/jeeftor/EmojiTaco</string>
 </dict>
 </plist>
