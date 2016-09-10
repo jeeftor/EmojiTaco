@@ -15,5 +15,5 @@ This workflow was developed because none of the existing emoji workflows had the
 
 # Emoji Searching
 
-Use the **e** command to search for EMOJIs.
+Use the **e** command to search for EMOJIs.  You can change the keyword in the settings of the workflow.
 
