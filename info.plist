@@ -201,7 +201,7 @@ use `e` to search for emoji. You can change the keyword in the settings of the w
 		<string>e</string>
 	</dict>
 	<key>version</key>
-	<string>0.8.3</string>
+	<string>0.8.5</string>
 	<key>webaddress</key>
 	<string>https://github.com/jeeftor/EmojiTaco</string>
 </dict>

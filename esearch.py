@@ -43,5 +43,10 @@ def main(wf):
     wf.send_feedback()
 
 if __name__ == '__main__':
-    wf = Workflow3()
+    wf = Workflow3(update_settings=
+                   {
+                       'github_slug':'jeeftor/EmojiTaco',
+                       'frequency': 7
+                   }
+    )
     sys.exit(wf.run(main))
