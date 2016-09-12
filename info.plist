@@ -155,7 +155,12 @@ python esearch.py $query</string>
 	<key>readme</key>
 	<string>This Emoji workflow was built because there were ZERO taco emoji workflows out there.
 
-use `e` to search for emoji. You can change the keyword in the settings of the workflow.</string>
+use `e` to search for emoji. You can change the keyword in the settings of the workflow.
+
+If you want you can customize this value under the workflow values
+
+Make sure you type 'init emoji' to build the emoji list after you install and/or update
+</string>
 	<key>uidata</key>
 	<dict>
 		<key>157AEB44-CD30-445B-B751-7CEDE94BC8A0</key>
@@ -201,7 +206,7 @@ use `e` to search for emoji. You can change the keyword in the settings of the w
 		<string>e</string>
 	</dict>
 	<key>version</key>
-	<string>0.8.9</string>
+	<string>0.9</string>
 	<key>webaddress</key>
 	<string>https://github.com/jeeftor/EmojiTaco</string>
 </dict>
