@@ -31,8 +31,6 @@ def main(wf):
             elif query in keywords:
                 keyword_match.append([img,name,raw_code,keywords])
 
-
-
     for array in name_match + keyword_match:
         img, title, raw_code, subtile = array
         wf.add_item(title, subtitle=subtile,

@@ -72,7 +72,8 @@ EXCLUDE_PATTERNS = [
     '.idea',
     '.git',
     './eenv/*',
-    './img/*.png'
+    './img/*.png',
+    '*.csv'
 ]
 
 
