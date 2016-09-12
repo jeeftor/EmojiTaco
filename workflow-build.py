@@ -73,7 +73,8 @@ EXCLUDE_PATTERNS = [
     '.git',
     './eenv/*',
     './img/*.png',
-    '*.csv'
+    '*.csv',
+    '*.alfredworkflow'
 ]
 
 
