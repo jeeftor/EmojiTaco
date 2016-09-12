@@ -16,6 +16,9 @@ def main(wf):
         ret = ""
         for uni in str.replace("U+", "").split(" "):
             ret += "\U00000000"[:-len(uni)] + uni
+
+        # Apply Emoji Selector to the end
+        ret += "\U0000FE0F"
         return ret
 
     # Print / write the output as needed
