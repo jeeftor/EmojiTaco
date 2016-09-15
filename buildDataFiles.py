@@ -23,7 +23,7 @@ def main(wf):
 
     # Print / write the output as needed
     def print_result(print_name):
-        output = ', '.join([str(number) + ".png", print_name, code.decode('unicode_escape'), code, keywords])
+        output = ','.join([str(number) + ".png", print_name, code.decode('unicode_escape'), code, raw_code_string, keywords])
         csv.write(output.encode('utf-8') + "\n")
 
 

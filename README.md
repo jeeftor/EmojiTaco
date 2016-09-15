@@ -17,3 +17,11 @@ This workflow was developed because none of the existing emoji workflows had the
 
 Use the **e** command to search for EMOJIs.  You can change the keyword in the settings of the workflow.
 
+### Commands
+
+
+* alt/option (**⌥**)  -  Show Unicode Values
+* cmd (**⌘**) - Show Python String
+* ctrl (**⌃**) - Show Python String *decoded*
+* shift (**⇧**) - Display the image in QuickLook
+
