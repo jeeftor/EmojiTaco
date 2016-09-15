@@ -14,6 +14,7 @@ def main(wf):
         wf.send_feedback()
         exit()
 
+
     try:
         query = [str(arg) for arg in wf.args[0:]]
     except:
@@ -24,15 +25,17 @@ def main(wf):
         for line in f:
             img, name, code, raw_code, code_string, keywords = line.strip().split(',')
 
-            in_keywords = False
-            in_name = False
+            in_keywords = True
+            in_name = True
 
             for term in query:
 
-                if term in name.lower():
-                    in_name = True
-                elif term in keywords:
-                    in_keywords = True
+                if term.startswith('-'):
+                    in_name &= term[1:] not in name.lower()
+                    in_keywords &= term[1:] not in keywords
+                else:
+                    in_name &= term in name.lower()
+                    in_keywords &= term in keywords
 
             if in_name:
                 name_match.append([img, name, raw_code, keywords])
@@ -41,6 +44,11 @@ def main(wf):
 
     imgbase = 'file://' + urllib.quote(os.getcwd()) + '/img/'
 
+    if len(name_match + keyword_match) == 0:
+        wf.add_item("\\U0001F622\\U0000FE0F".decode('unicode_escape') + ' No Emoji found', 'Please try again', icon='icon.png')
+    else:
+        wf.add_item( str(len(name_match + keyword_match)) + ' matches found', 'To remove results use - in front of a term',
+                     icon='icon.png', valid=False)
     for array in name_match + keyword_match:
         img, title, raw_code, subtitle = array
 

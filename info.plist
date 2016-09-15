@@ -4,8 +4,6 @@
 <dict>
 	<key>bundleid</key>
 	<string>org.jeef.emoji</string>
-	<key>category</key>
-	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>157AEB44-CD30-445B-B751-7CEDE94BC8A0</key>
@@ -161,9 +159,7 @@ If you want you can customize this value under the workflow values
 
 Make sure you type 'init emoji' to build the emoji list after you install and/or update
 
-This plug tries to load all Emoji from Unicode.  It will return Emoji that may not be able to be represented on current apple software (iOS or OSX)- but are still valid emoji.  
-
-</string>
+This plug tries to load all Emoji from Unicode.  It will return Emoji that may not be able to be represented on current apple software (iOS or OSX)- but are still valid emoji.</string>
 	<key>uidata</key>
 	<dict>
 		<key>157AEB44-CD30-445B-B751-7CEDE94BC8A0</key>
@@ -209,7 +205,7 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 		<string>e</string>
 	</dict>
 	<key>version</key>
-	<string>0.9.17</string>
+	<string>0.9.27</string>
 	<key>webaddress</key>
 	<string>https://github.com/jeeftor/EmojiTaco</string>
 </dict>
