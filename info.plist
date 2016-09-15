@@ -160,6 +160,9 @@ use `e` to search for emoji. You can change the keyword in the settings of the w
 If you want you can customize this value under the workflow values
 
 Make sure you type 'init emoji' to build the emoji list after you install and/or update
+
+This plug tries to load all Emoji from Unicode.  It will return Emoji that may not be able to be represented on current apple software (iOS or OSX)- but are still valid emoji.  
+
 </string>
 	<key>uidata</key>
 	<dict>
@@ -206,7 +209,7 @@ Make sure you type 'init emoji' to build the emoji list after you install and/or
 		<string>e</string>
 	</dict>
 	<key>version</key>
-	<string>0.9.6</string>
+	<string>0.9.17</string>
 	<key>webaddress</key>
 	<string>https://github.com/jeeftor/EmojiTaco</string>
 </dict>

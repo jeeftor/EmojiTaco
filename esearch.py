@@ -1,7 +1,7 @@
 from workflow import Workflow3
 import sys
 import os
-
+import  urllib
 name_match = []
 keyword_match = []
 
@@ -15,7 +15,7 @@ def main(wf):
         exit()
 
     try:
-        query = str(wf.args[0])
+        query = [str(arg) for arg in wf.args[0:]]
     except:
         query = ''
 
@@ -24,23 +24,38 @@ def main(wf):
         for line in f:
             img, name, code, raw_code, code_string, keywords = line.strip().split(',')
 
-            if query in name.lower():
-                name_match.append([img,name,raw_code,keywords])
-            elif query in keywords:
-                keyword_match.append([img,name,raw_code,keywords])
+            in_keywords = False
+            in_name = False
 
-    imgbase = 'file://' + wf.datadir + '/img/'
+            for term in query:
+
+                if term in name.lower():
+                    in_name = True
+                elif term in keywords:
+                    in_keywords = True
+
+            if in_name:
+                name_match.append([img, name, raw_code, keywords])
+            elif in_keywords:
+                keyword_match.append([img, name, raw_code, keywords])
+
+    imgbase = 'file://' + urllib.quote(os.getcwd()) + '/img/'
 
     for array in name_match + keyword_match:
         img, title, raw_code, subtitle = array
+
+        ql = imgbase + img
+
         item = wf.add_item(title, subtitle=subtitle.replace('  ',' '),
                     icon="img/" + img,
-                    quicklookurl=imgbase + img,
+                    quicklookurl=ql,
                     arg=raw_code.decode('unicode_escape'),
                     valid=True)
 
         p_string = raw_code.replace('\\','\\\\')
         pd_string = '\"' + p_string +  '\".decode(\'unicode_escape\')'
+
+
         item.add_modifier("cmd", subtitle='Python String [' + p_string + ']', arg=p_string, valid=None)
         item.add_modifier("alt", subtitle='Unicode Value [' + code_string + ']', arg=code_string, valid=None)
         item.add_modifier("ctrl", subtitle='Python String (decoded) [' + pd_string + ']', arg=pd_string, valid=None)

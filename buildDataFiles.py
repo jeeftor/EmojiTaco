@@ -7,7 +7,14 @@ import sys
 import  base64
 import urllib2
 
-
+import os
+import shutil
+def my_super_copy(what, where):
+    try:
+        shutil.copy(what, where)
+    except IOError:
+        os.chmod(where, 777) #?? still can raise exception
+        shutil.copy(what, where)
 
 def main(wf):
 
@@ -29,8 +36,19 @@ def main(wf):
 
     notify(title=u'Emoji Taco', text=u'Initializing emoji data', sound=None)
 
-    #html = open('full-emoji-list.html', 'r').read()
-    html = urllib2.urlopen('http://unicode.org/emoji/charts/full-emoji-list.html').read()
+    try:
+        try:
+            html = urllib2.urlopen('http://unicode.org/emoji/charts-beta/full-emoji-list.html').read()
+        except Exception as e:
+            html = urllib2.urlopen('http://unicode.org/emoji/charts/full-emoji-list.html').read()
+            print(e)
+    except urllib2.HTTPError as e:
+        notify(title='ERROR', text=str(e))
+        exit()
+    except Exception as e:
+        notify(title='Error', text=str(e))
+        exit()
+
 
     notify(title=u'Emoji Taco', text=u'Converting emoji data', sound=None)
 
@@ -74,19 +92,22 @@ def main(wf):
             alias = None
             name = None
 
-            keywords = cols[18].text.replace("|", '')
+            keywords = cols[18].text.replace("|", '').replace('  ',' ').replace('  ',' ')
+
+
+            image_filename = "img/" + str(number) + '.png'
 
             # Ignore non apple unicodes
             if apple != u'':
-                continue
-
-
-            # With default Beautiful soup parser use this line
-            # img_data = base64.b64decode(cols[4].contents[0].attrs[2][1].split(',')[1])
-            # With lxml parser use this
-            img_data = base64.b64decode(cols[4].contents[0].attrs['src'].split(',')[1])
-            with open("img/" + str(number) + '.png', 'wb') as f:
-                f.write(img_data)
+                my_super_copy('na.png', image_filename)
+                # continue
+            else:
+                # With default Beautiful soup parser use this line
+                # img_data = base64.b64decode(cols[4].contents[0].attrs[2][1].split(',')[1])
+                # With lxml parser use this
+                img_data = base64.b64decode(cols[4].contents[0].attrs['src'].split(',')[1])
+                with open(image_filename, 'wb') as f:
+                    f.write(img_data)
 
 
             if len(names) > 1:  # We have an alias definition
