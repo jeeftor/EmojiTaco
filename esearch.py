@@ -5,7 +5,6 @@ import os
 name_match = []
 keyword_match = []
 
-
 def main(wf):
 
     if os.path.isfile('emoji.csv'):
@@ -14,7 +13,6 @@ def main(wf):
         wf.add_item('Emoji not initialized.  Type "init emoji"', 'The init script requires you to be connected to the internet')
         wf.send_feedback()
         exit()
-
 
     try:
         query = str(wf.args[0])
@@ -30,6 +28,7 @@ def main(wf):
                 name_match.append([img,name,raw_code,keywords])
             elif query in keywords:
                 keyword_match.append([img,name,raw_code,keywords])
+
     imgbase = 'file://' + wf.datadir + '/img/'
 
     for array in name_match + keyword_match:
@@ -45,7 +44,9 @@ def main(wf):
         item.add_modifier("cmd", subtitle='Python String [' + p_string + ']', arg=p_string, valid=None)
         item.add_modifier("alt", subtitle='Unicode Value [' + code_string + ']', arg=code_string, valid=None)
         item.add_modifier("ctrl", subtitle='Python String (decoded) [' + pd_string + ']', arg=pd_string, valid=None)
-        wf.send_feedback()
+
+
+    wf.send_feedback()
 
 if __name__ == '__main__':
     wf = Workflow3(update_settings=
