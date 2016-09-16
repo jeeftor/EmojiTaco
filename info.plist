@@ -10,7 +10,30 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>22DEF54C-B689-4E7A-9C9C-1D73DC17BC80</string>
+				<string>CCA9AA93-4819-4300-A6F2-DF376B00B121</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>7CA6CF39-136D-49FF-A58E-F1779E4067C0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>7CA6CF39-136D-49FF-A58E-F1779E4067C0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>20318ECF-9A92-49D1-84FD-A3DB37C2066E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -24,6 +47,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>20318ECF-9A92-49D1-84FD-A3DB37C2066E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>CCA9AA93-4819-4300-A6F2-DF376B00B121</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>22DEF54C-B689-4E7A-9C9C-1D73DC17BC80</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -108,6 +144,44 @@ python esearch.py $query</string>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>inputstring</key>
+				<string>{query}</string>
+				<key>matchcasesensitive</key>
+				<false/>
+				<key>matchmode</key>
+				<integer>1</integer>
+				<key>matchstring</key>
+				<string>init emoji</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>CCA9AA93-4819-4300-A6F2-DF376B00B121</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>inputstring</key>
+				<string>{query}</string>
+				<key>matchcasesensitive</key>
+				<false/>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>matchstring</key>
+				<string>init emoji</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>7CA6CF39-136D-49FF-A58E-F1779E4067C0</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>concurrently</key>
 				<false/>
 				<key>escaping</key>
@@ -153,9 +227,9 @@ python esearch.py $query</string>
 	<key>readme</key>
 	<string>This Emoji workflow was built because there were ZERO taco emoji workflows out there.
 
-use `e` to search for emoji. You can change the keyword in the settings of the workflow.
+use `e` to search for emoji. 
 
-If you want you can customize this value under the workflow values
+If you want you can customize this value under the workflow values.
 
 Make sure you type 'init emoji' to build the emoji list after you install and/or update
 
@@ -176,7 +250,7 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 			<key>note</key>
 			<string>run the download script</string>
 			<key>xpos</key>
-			<integer>310</integer>
+			<integer>410</integer>
 			<key>ypos</key>
 			<integer>230</integer>
 		</dict>
@@ -185,9 +259,16 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 			<key>note</key>
 			<string>copy emoji to clipboard and paste into open applicaiton</string>
 			<key>xpos</key>
-			<integer>300</integer>
+			<integer>410</integer>
 			<key>ypos</key>
 			<integer>50</integer>
+		</dict>
+		<key>7CA6CF39-136D-49FF-A58E-F1779E4067C0</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>180</integer>
 		</dict>
 		<key>C2DC4C2B-6E56-41E8-825E-28095D9C7DD0</key>
 		<dict>
@@ -197,6 +278,13 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 			<integer>90</integer>
 			<key>ypos</key>
 			<integer>230</integer>
+		</dict>
+		<key>CCA9AA93-4819-4300-A6F2-DF376B00B121</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>80</integer>
 		</dict>
 	</dict>
 	<key>variables</key>
