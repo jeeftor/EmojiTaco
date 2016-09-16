@@ -10,7 +10,7 @@ def main(wf):
     if os.path.isfile('emoji.csv'):
         pass
     else:
-        wf.add_item('Emoji not initialized.  Type "init emoji"', 'The init script requires you to be connected to the internet')
+        wf.add_item('Emoji not initialized.  Hit enter or type "init emoji".', 'The init script requires you to be connected to the internet', arg='init emoji', valid=True)
         wf.send_feedback()
         exit()
 
