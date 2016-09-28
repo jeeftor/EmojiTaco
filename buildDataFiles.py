@@ -92,7 +92,7 @@ def main(wf):
             alias = None
             name = None
 
-            keywords = cols[18].text.replace("|", '').replace('  ',' ').replace('  ',' ')
+            keywords = cols[17].text.replace("|", '').replace('  ',' ').replace('  ',' ')
 
 
             image_filename = "img/" + str(number) + '.png'
