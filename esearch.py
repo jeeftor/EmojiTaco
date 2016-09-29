@@ -32,10 +32,10 @@ def main(wf):
 
                 if term.startswith('-'):
                     in_name &= term[1:] not in name.lower()
-                    in_keywords &= term[1:] not in keywords
+                    in_keywords &= term[1:] not in keywords.lower()
                 else:
                     in_name &= term in name.lower()
-                    in_keywords &= term in keywords
+                    in_keywords &= term in keywords.lower()
 
             if in_name:
                 name_match.append([img, name, raw_code, keywords])
