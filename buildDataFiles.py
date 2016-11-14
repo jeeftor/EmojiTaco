@@ -16,6 +16,17 @@ def my_super_copy(what, where):
         os.chmod(where, 777) #?? still can raise exception
         shutil.copy(what, where)
 
+def build_headers(cols):
+    """Extacts a mapping of column number to name -- hopefully to help future proof this script"""
+
+    headers = {}
+
+    for i in range(0, len(cols)):
+        headers[cols[i].text] = i
+
+    return headers
+
+
 def main(wf):
 
     def convert_to_unicode(str):
@@ -65,6 +76,9 @@ def main(wf):
     notify(title=u'Emoji Taco', text=u'Parsing emoji data', sound=None)
 
 
+    headers = None
+
+
     for table in tables:
 
         rows = table.findAll('tr')
@@ -72,8 +86,15 @@ def main(wf):
         for tr in rows:
             cols = tr.findAll(['th', 'td'])
 
+            if not headers:
+                headers = build_headers(cols)
+
+
+
+
             # Extract the raw unicode string - basically turn it into something python can print
-            raw_code_string = str(cols[1].text)
+            # raw_code_string = str(cols[1].text)
+            raw_code_string = str(cols[headers[u'Code']].text)
 
             if raw_code_string == u'Code':
                 # Skip header lines
@@ -82,17 +103,17 @@ def main(wf):
             # Unicode code
             code = convert_to_unicode(raw_code_string)
             # The apple column - if we have no data here we prob dont care about the emoji because it isnt in osx
-            apple = cols[4].text
+            apple = cols[headers[u'Applᵈ']].text
             # The name of the emoji
-            names = cols[15].text.replace(u'amp;', u'').split(u'≊ ')
+            names = cols[headers[u'Name']].text.replace(u'amp;', u'').split(u'≊ ')
             # The number
-            number = int(cols[0].text)
+            number = int(cols[headers[u'№']].text)
 
             # Zero out alias and name
             alias = None
             name = None
 
-            keywords = cols[17].text.replace("|", '').replace('  ',' ').replace('  ',' ')
+            keywords = cols[headers[u'Keywords']].text.replace("|", '').replace('  ',' ').replace('  ',' ')
 
 
             image_filename = "img/" + str(number) + '.png'
@@ -105,7 +126,7 @@ def main(wf):
                 # With default Beautiful soup parser use this line
                 # img_data = base64.b64decode(cols[4].contents[0].attrs[2][1].split(',')[1])
                 # With lxml parser use this
-                img_data = base64.b64decode(cols[4].contents[0].attrs['src'].split(',')[1])
+                img_data = base64.b64decode(cols[headers[u'Applᵈ']].contents[0].attrs['src'].split(',')[1])
                 with open(image_filename, 'wb') as f:
                     f.write(img_data)
 

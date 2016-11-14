@@ -47,8 +47,9 @@ def main(wf):
     if len(name_match + keyword_match) == 0:
         wf.add_item("\\U0001F622\\U0000FE0F".decode('unicode_escape') + ' No Emoji found', 'Please try again', icon='icon.png')
     else:
-        wf.add_item( str(len(name_match + keyword_match)) + ' matches found', 'To remove results use - in front of a term',
-                     icon='icon.png', valid=False)
+        if len > 9:
+            wf.add_item( str(len(name_match + keyword_match)) + ' matches found', 'To remove results use - in front of a term',
+                         icon='icon.png', valid=False)
     for array in name_match + keyword_match:
         img, title, raw_code, subtitle = array
 
