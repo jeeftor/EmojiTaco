@@ -69,7 +69,8 @@ class DataFilerBuilder():
         if not test_mode:
             notify(title=u'Emoji Taco', text=u'Converting emoji data', sound=None)
 
-        soup = BeautifulSoup(html, "lxml")
+        # soup = BeautifulSoup(html, "lxml")
+        soup = BeautifulSoup(html)
 
         tables = soup.findAll('table')
 
