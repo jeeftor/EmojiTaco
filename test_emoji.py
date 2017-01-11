@@ -10,4 +10,4 @@ def test_mytest():
         f()
 
 def test_data_builder():
-    DataFilerBuilder().buildData(Workflow3())
+    DataFilerBuilder().buildData(Workflow3(), test_mode=True)
