@@ -1,5 +1,9 @@
+before_install:
+  - sudo apt-get install libxslt1-dev libxml2 -y
+  - sudo apt-get install -qq libxml2-dev libxmlsec1-dev libxslt-dev
+  - sudo apt-get install python-html5lib -y
+  - sudo apt-get install python-lxml
 language: python
 python:
     - "2.7"
-install: "pip install -r requirements.txt"
 script: pytest

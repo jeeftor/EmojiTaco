@@ -3,6 +3,7 @@ from workflow import Workflow3
 from workflow.notify import  notify
 from bs4 import BeautifulSoup
 import sys
+import lxml
 
 import  base64
 import urllib2
@@ -29,7 +30,7 @@ class DataFilerBuilder():
 
         return headers
 
-    def buildData(self,wf):
+    def buildData(self,wf, test_mode=False):
 
 
         def convert_to_unicode(str):
@@ -48,7 +49,8 @@ class DataFilerBuilder():
             csv.write(output.encode('utf-8') + "\n")
 
 
-        notify(title=u'Emoji Taco', text=u'Initializing emoji data', sound=None)
+        if not test_mode:
+            notify(title=u'Emoji Taco', text=u'Initializing emoji data', sound=None)
 
         try:
             try:
@@ -57,14 +59,16 @@ class DataFilerBuilder():
                 html = urllib2.urlopen('http://unicode.org/emoji/charts/full-emoji-list.html').read()
                 print(e)
         except urllib2.HTTPError as e:
-            notify(title='ERROR', text=str(e))
+            if not test_mode:
+                notify(title='ERROR', text=str(e))
             exit()
         except Exception as e:
-            notify(title='Error', text=str(e))
+            if not test_mode:
+                notify(title='Error', text=str(e))
             exit()
 
-
-        notify(title=u'Emoji Taco', text=u'Converting emoji data', sound=None)
+        if not test_mode:
+            notify(title=u'Emoji Taco', text=u'Converting emoji data', sound=None)
 
         soup = BeautifulSoup(html, "lxml")
 
@@ -76,7 +80,8 @@ class DataFilerBuilder():
         # Open the output file
         csv = open('emoji.csv', 'w')
 
-        notify(title=u'Emoji Taco', text=u'Parsing emoji data', sound=None)
+        if not test_mode:
+            notify(title=u'Emoji Taco', text=u'Parsing emoji data', sound=None)
 
 
         headers = None
@@ -154,7 +159,8 @@ class DataFilerBuilder():
 
                 print_result(name)
 
-        notify(title=u'Emoji Taco', text=u'Is ready for use', sound=None)
+        if not test_mode:
+            notify(title=u'Emoji Taco', text=u'Is ready for use', sound=None)
 
 
 def main(wf):
