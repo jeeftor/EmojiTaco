@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jeeftor/EmojiTaco.svg?branch=master)](https://travis-ci.org/jeeftor/EmojiTaco)
+
 # Emoji Taco 🌮 
 
 [**Download the latest release**](https://github.com/jeeftor/EmojiTaco/releases)
