@@ -111,7 +111,7 @@ class DataFilerBuilder():
                 # Unicode code
                 code = convert_to_unicode(raw_code_string)
                 # The apple column - if we have no data here we prob dont care about the emoji because it isnt in osx
-                apple = cols[headers[u'CrAppl']].text
+                apple = cols[headers[u'Appl']].text
                 # The name of the emoji
                 names = cols[headers[u'Name']].text.replace(u'amp;', u'').split(u'≊ ')
                 # The number
