@@ -126,7 +126,7 @@ def main(wf):
                 # With default Beautiful soup parser use this line
                 # img_data = base64.b64decode(cols[4].contents[0].attrs[2][1].split(',')[1])
                 # With lxml parser use this
-                img_data = base64.b64decode(cols[headers[u'Applᵈ']].contents[0].attrs['src'].split(',')[1])
+                img_data = base64.b64decode(cols[headers[u'Appl']].contents[0].attrs['src'].split(',')[1])
                 with open(image_filename, 'wb') as f:
                     f.write(img_data)
 
