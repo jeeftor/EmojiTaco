@@ -12,7 +12,6 @@ def f():
 
 def test_mytest():
     soup = BeautifulSoup("<html>data</html>")
-    soup = BeautifulSoup("<html></html>", "lxml")
 
     with pytest.raises(SystemExit):
         f()
