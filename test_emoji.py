@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import sys
 import lxml
 
+
 def f():
     raise SystemExit(1)
 
