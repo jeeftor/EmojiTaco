@@ -26,6 +26,7 @@ class DataFilerBuilder():
 
         for i in range(0, len(cols)):
             headers[cols[i].text] = i
+            print("Header : " + cols[i].text)
 
         return headers
 
@@ -93,12 +94,17 @@ class DataFilerBuilder():
 
             for tr in rows:
                 cols = tr.findAll(['th', 'td'])
+                
+
+
 
                 if not headers:
                     headers = self.build_headers(cols)
 
-
-
+                if len(headers) < 3:
+                    # " Bad header detected ... lets abort for now"
+                    header = None
+                    continue
 
                 # Extract the raw unicode string - basically turn it into something python can print
                 # raw_code_string = str(cols[1].text)
