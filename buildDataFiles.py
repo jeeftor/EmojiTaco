@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 from workflow import Workflow3
-from workflow.notify import  notify
+from workflow.notify import notify
 from bs4 import BeautifulSoup
 import sys
 
-import  base64
+import base64
 import urllib2
 
 import os
 import shutil
 
-class DataFilerBuilder():
 
+class DataFilerBuilder():
     def my_super_copy(self, what, where):
         try:
             shutil.copy(what, where)
         except IOError:
-            os.chmod(where, 777) #?? still can raise exception
+            os.chmod(where, 777)  # ?? still can raise exception
             shutil.copy(what, where)
 
     def build_headers(self, cols):
@@ -26,11 +26,10 @@ class DataFilerBuilder():
 
         for i in range(0, len(cols)):
             headers[cols[i].text] = i
-
+            # print("Header : " + cols[i].text)
         return headers
 
-    def buildData(self,wf, test_mode=False):
-
+    def buildData(self, wf, test_mode=False):
 
         def convert_to_unicode(str):
             """Takes a string in the form of U+XXX and turns it into a \UXXXXXXXX """
@@ -44,9 +43,9 @@ class DataFilerBuilder():
 
         # Print / write the output as needed
         def print_result(print_name):
-            output = ','.join([str(number) + ".png", print_name, code.decode('unicode_escape'), code, raw_code_string, keywords])
+            output = ','.join(
+                [str(number) + ".png", print_name, code.decode('unicode_escape'), code, raw_code_string, keywords])
             csv.write(output.encode('utf-8') + "\n")
-
 
         if not test_mode:
             notify(title=u'Emoji Taco', text=u'Initializing emoji data', sound=None)
@@ -83,9 +82,10 @@ class DataFilerBuilder():
         if not test_mode:
             notify(title=u'Emoji Taco', text=u'Parsing emoji data', sound=None)
 
-
         headers = None
 
+
+        emoji_count = 0
 
         for table in tables:
 
@@ -97,8 +97,15 @@ class DataFilerBuilder():
                 if not headers:
                     headers = self.build_headers(cols)
 
+                if len(headers) < 3:
+                    # " Bad header detected ... lets abort for now"
+                    headers = None
+                    continue
 
-
+                # March 15 - Ignore the sub-header lines like "Face neutral" and stuff
+                # March 15 - Ignore the strange lines that have some emoji - probably are the ones that arent decided on yet (like star-struck)
+                if len(cols) < 7:
+                    continue
 
                 # Extract the raw unicode string - basically turn it into something python can print
                 # raw_code_string = str(cols[1].text)
@@ -108,12 +115,18 @@ class DataFilerBuilder():
                     # Skip header lines
                     continue
 
+
                 # Unicode code
                 code = convert_to_unicode(raw_code_string)
                 # The apple column - if we have no data here we prob dont care about the emoji because it isnt in osx
                 apple = cols[headers[u'Appl']].text
-                # The name of the emoji
-                names = cols[headers[u'Name']].text.replace(u'amp;', u'').split(u'≊ ')
+
+                # March 15th - File format changed so sometimes we get funky text like this in a case where there is no apple emoji - skip these items
+                if apple == u'…     …':
+                    continue
+
+                names = cols[headers[u'CLDR Short Name']].text.replace(u'amp;', u'').split(u'≊ ')
+
                 # The number
                 number = int(cols[headers[u'№']].text)
 
@@ -121,8 +134,7 @@ class DataFilerBuilder():
                 alias = None
                 name = None
 
-                keywords = cols[headers[u'Keywords']].text.replace("|", '').replace('  ',' ').replace('  ',' ')
-
+                keywords = cols[headers[u'Keywords']].text.replace("|", '').replace('  ', ' ').replace('  ', ' ')
 
                 image_filename = "img/" + str(number) + '.png'
 
@@ -138,6 +150,7 @@ class DataFilerBuilder():
                     with open(image_filename, 'wb') as f:
                         f.write(img_data)
 
+                emoji_count += 1
 
                 if len(names) > 1:  # We have an alias definition
                     name = names[0]
@@ -147,7 +160,7 @@ class DataFilerBuilder():
 
                     # Split on comma
                     names = names[0].split(', ')
-                    name = alias_dict.get(names[0],names[0])
+                    name = alias_dict.get(names[0], names[0])
                     if len(names) > 1:
                         name += " "
                         name += names[1]
@@ -160,12 +173,13 @@ class DataFilerBuilder():
                 print_result(name)
 
         if not test_mode:
-            notify(title=u'Emoji Taco', text=u'Is ready for use', sound=None)
+            notify(title=u'Emoji Taco', text=u'Is ready for use. {} emoji processed'.format(emoji_count), sound=None)
 
 
 def main(wf):
     dfb = DataFilerBuilder()
     dfb.buildData(wf)
+
 
 if __name__ == '__main__':
     wf = Workflow3()
