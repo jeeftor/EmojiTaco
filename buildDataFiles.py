@@ -30,7 +30,7 @@ class DataFilerBuilder():
         return headers
 
     def buildData(self, wf, test_mode=False):
-
+   
         def convert_to_unicode(str):
             """Takes a string in the form of U+XXX and turns it into a \UXXXXXXXX """
             ret = ""
@@ -63,6 +63,10 @@ class DataFilerBuilder():
         except Exception as e:
             if not test_mode:
                 notify(title='Error', text=str(e))
+            else:
+                print str(e)
+                print str(e)
+                print str(e)
             exit()
 
         if not test_mode:
