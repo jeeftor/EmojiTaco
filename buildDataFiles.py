@@ -71,9 +71,9 @@ class DataFilerBuilder():
 
         if not test_mode:
             notify(title=u'Emoji Taco', text=u'Converting emoji data', sound=None)
-
-        # soup = BeautifulSoup(html, "lxml")
-        soup = BeautifulSoup(html)
+            soup = BeautifulSoup(html, "lxml")
+        else:
+            soup = BeautifulSoup(html)
 
         tables = soup.findAll('table')
 
@@ -129,7 +129,12 @@ class DataFilerBuilder():
                 if apple == u'…     …':
                     continue
 
-                names = cols[headers[u'CLDR Short Name']].text.replace(u'amp;', u'').split(u'≊ ')
+                try:
+                    names = cols[headers[u'CLDR Short Name']].text.replace(u'amp;', u'').split(u'≊ ')
+                except:
+                    # March 29th - added a table to the bottom of the page listing out totals of emoji type - it breaks here so we must skip over it
+                    continue
+
 
                 # The number
                 number = int(cols[headers[u'№']].text)
@@ -138,7 +143,7 @@ class DataFilerBuilder():
                 alias = None
                 name = None
 
-                keywords = cols[headers[u'Keywords']].text.replace("|", '').replace('  ', ' ').replace('  ', ' ')
+                keywords = cols[headers[u'CLDR Short Name']].text.replace("|", '').replace('  ', ' ').replace('  ', ' ')
 
                 image_filename = "img/" + str(number) + '.png'
 
