@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from workflow import Workflow3
 from workflow.notify import notify
 from bs4 import BeautifulSoup
@@ -9,6 +10,11 @@ import urllib2
 
 import os
 import shutil
+
+
+last_pct = 0
+
+
 
 
 class DataFilerBuilder():
@@ -30,7 +36,7 @@ class DataFilerBuilder():
         return headers
 
     def buildData(self, wf, test_mode=False):
-   
+
         def convert_to_unicode(str):
             """Takes a string in the form of U+XXX and turns it into a \UXXXXXXXX """
             ret = ""
@@ -47,14 +53,58 @@ class DataFilerBuilder():
                 [str(number) + ".png", print_name, code.decode('unicode_escape'), code, raw_code_string, keywords])
             csv.write(output.encode('utf-8') + "\n")
 
+        def chunk_report(bytes_so_far, chunk_size, total_size):
+            percent = float(bytes_so_far) / total_size
+            percent = int(round(percent * 100, 2))
+
+            if int(last_pct) < int(percent):
+                #print("Downloaded {} of {} bytes {:0.2f}%".format(bytes_so_far, total_size, percent))
+                last_pct = int(percent)
+                sys.stdout.write("Downloaded %d of %d bytes (%0.2f%%)\r" % (bytes_so_far, total_size, percent))
+
+            #if bytes_so_far >= total_size:
+                #sys.stdout.write('\n')
+
+        def chunk_read(response, chunk_size=8192, report_hook=None):
+            total_size = response.info().getheader('Content-Length').strip()
+            total_size = int(total_size)
+            bytes_so_far = 0
+
+            while 1:
+                chunk = response.read(chunk_size)
+                bytes_so_far += len(chunk)
+
+                if not chunk:
+                    break
+
+                if report_hook:
+                    report_hook(bytes_so_far, chunk_size, total_size)
+
+            return bytes_so_far
+
+        ###################################
+        # END INTERNAL FUNCTION definition
+        ###################################
+
+        url1 = 'http://unicode.org/emoji/charts-beta/full-emoji-list.html'
+        url2 = 'http://unicode.org/emoji/charts/full-emoji-list.html'
+
         if not test_mode:
             notify(title=u'Emoji Taco', text=u'Initializing emoji data', sound=None)
 
         try:
             try:
-                html = urllib2.urlopen('http://unicode.org/emoji/charts-beta/full-emoji-list.html').read()
+                if test_mode:
+                    print "Querying: ", url1
+                html = urllib2.urlopen(url1, timeout=10000)
+                chunk_read(html, report_hook=chunk_report)
+
+
             except Exception as e:
-                html = urllib2.urlopen('http://unicode.org/emoji/charts/full-emoji-list.html').read()
+                if test_mode:
+                    print "Fall back query: ", url2
+                html = urllib2.urlopen(url2, timeout=10000)
+                chunk_read(html, report_hook=chunk_report)
                 print(e)
         except urllib2.HTTPError as e:
             if not test_mode:
@@ -64,8 +114,6 @@ class DataFilerBuilder():
             if not test_mode:
                 notify(title='Error', text=str(e))
             else:
-                print str(e)
-                print str(e)
                 print str(e)
             exit()
 
@@ -87,7 +135,6 @@ class DataFilerBuilder():
             notify(title=u'Emoji Taco', text=u'Parsing emoji data', sound=None)
 
         headers = None
-
 
         emoji_count = 0
 
@@ -119,7 +166,6 @@ class DataFilerBuilder():
                     # Skip header lines
                     continue
 
-
                 # Unicode code
                 code = convert_to_unicode(raw_code_string)
                 # The apple column - if we have no data here we prob dont care about the emoji because it isnt in osx
@@ -134,7 +180,6 @@ class DataFilerBuilder():
                 except:
                     # March 29th - added a table to the bottom of the page listing out totals of emoji type - it breaks here so we must skip over it
                     continue
-
 
                 # The number
                 number = int(cols[headers[u'№']].text)
