@@ -89,7 +89,7 @@ class DataFilerBuilder():
 
         # Print / write the output as needed
         def print_result(print_name):
-            output = ','.join(
+            output = '\t'.join(
                 [str(number) + ".png", print_name, code.decode('unicode_escape'), code, raw_code_string, keywords])
             csv.write(output.encode('utf-8') + "\n")
 
@@ -177,7 +177,7 @@ class DataFilerBuilder():
         alias_dict = {}
 
         # Open the output file
-        csv = open('emoji.csv', 'w')
+        csv = open('emoji.tab', 'w')
 
         if not test_mode:
             notify(title=u'Emoji Taco', text=u'Parsing emoji data', sound=None)

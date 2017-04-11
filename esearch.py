@@ -1,5 +1,10 @@
-from workflow import Workflow3
+# encoding=utf8
 import sys
+
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+from workflow import Workflow3
 import os
 import  urllib
 name_match = []
@@ -7,7 +12,7 @@ keyword_match = []
 
 def main(wf):
 
-    if os.path.isfile('emoji.csv'):
+    if os.path.isfile('emoji.tab'):
         pass
     else:
         wf.add_item('Emoji not initialized.  Hit enter or type "init emoji".', 'The init script requires you to be connected to the internet', arg='init emoji', valid=True)
@@ -21,9 +26,14 @@ def main(wf):
         query = ''
 
 
-    with open('emoji.csv') as f:
-        for line in f:
-            img, name, code, raw_code, code_string, keywords = line.strip().split(',')
+    with open('emoji.tab', 'r') as f:
+        for idx, line in enumerate(f,1):
+            split_list = line.strip().split('\t')
+            if len(split_list) != 6:
+                raise  ValueError("Line {}: '{}' has {} spaces, expected 1"
+                .format(idx, line.rstrip(), len(split_list) - 1))
+            else:
+                img, name, code, raw_code, code_string, keywords = split_list
 
             in_keywords = True
             in_name = True

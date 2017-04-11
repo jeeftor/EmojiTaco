@@ -74,6 +74,8 @@ EXCLUDE_PATTERNS = [
     './eenv/*',
     './img/*.png',
     '.*.html',
+    '.*.htm',
+    '.*.tab',
     '*.csv',
     '*.alfredworkflow'
 ]
