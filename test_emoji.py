@@ -13,10 +13,9 @@ from workflow import Workflow3, web
 #    DataFilerBuilder().buildData(Workflow3(), test_mode=True)
 
 
-def test_stream(travis):
-    with travis.folding_output():
 
-        url1 = 'http://unicode.org/emoji/charts-beta/full-emoji-list.html'
+def test_stream(travis = None):
+    def do_dl():
         r = web.get(url1, stream=True)
 
         total_size = int(r.headers.get('content-length', 0))
@@ -30,12 +29,23 @@ def test_stream(travis):
                     f.write(chunk)
         print 'done'
 
+    url1 = 'http://unicode.org/emoji/charts-beta/full-emoji-list.html'
+    if travis:
+        with travis.folding_output():
+            do_dl()
+    else:
+        do_dl()
 
-def test_download(travis):
-    with travis.folding_output():
 
-        url1 = 'http://unicode.org/emoji/charts-beta/full-emoji-list.html'
-        url2 = 'http://unicode.org/emoji/charts/full-emoji-list.html'
 
+def test_download(travis = None):
+    url1 = 'http://unicode.org/emoji/charts-beta/full-emoji-list.html'
+    url2 = 'http://unicode.org/emoji/charts/full-emoji-list.html'
+
+    if travis:
+        with travis.folding_output():
+            r = web.get(url1, timeout=6000)
+    else:
         r = web.get(url1, timeout=6000)
+
         print r.status_code

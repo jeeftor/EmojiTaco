@@ -12,20 +12,24 @@ import os
 import shutil
 
 
-last_pct = 0
-
-
 
 
 class DataFilerBuilder():
-    def my_super_copy(self, what, where):
+
+    def __init__(self):
+        self.last_download_percent = 0
+
+
+    @staticmethod
+    def my_super_copy(what, where):
         try:
             shutil.copy(what, where)
         except IOError:
             os.chmod(where, 777)  # ?? still can raise exception
             shutil.copy(what, where)
 
-    def build_headers(self, cols):
+    @staticmethod
+    def build_headers(cols):
         """Extacts a mapping of column number to name -- hopefully to help future proof this script"""
 
         headers = {}
@@ -34,6 +38,42 @@ class DataFilerBuilder():
             headers[cols[i].text] = i
             # print("Header : " + cols[i].text)
         return headers
+
+    def download_chunk_report(self, bytes_so_far, chunk_size, total_size):
+        """Reports out download progress"""
+        percent = float(bytes_so_far) / total_size
+        percent = int(round(percent * 100, 2))
+
+        if int(self.last_download_percent) < int(percent):
+            print("Downloaded {} of {} bytes {:0.2f}%".format(bytes_so_far, total_size, percent))
+            self.last_download_percent = int(percent)
+            sys.stdout.write("Downloaded %d of %d bytes (%0.2f%%)\r" % (bytes_so_far, total_size, percent))
+
+            # if bytes_so_far >= total_size:
+            # sys.stdout.write('\n')
+
+    def download_chunk_read(self, response, chunk_size=8192, output_file=None, report_hook=None):
+        """In a streaming download - will read chunk by chunk"""
+        total_size = response.info().getheader('Content-Length').strip()
+        total_size = int(total_size)
+        bytes_so_far = 0
+
+        while 1:
+            chunk = response.read(chunk_size)
+            bytes_so_far += len(chunk)
+
+            if not chunk:
+                print('breaking')
+                break
+
+            output_file.write(chunk)
+
+            if report_hook:
+                report_hook(bytes_so_far, chunk_size, total_size)
+
+        return bytes_so_far
+
+
 
     def buildData(self, wf, test_mode=False):
 
@@ -53,34 +93,34 @@ class DataFilerBuilder():
                 [str(number) + ".png", print_name, code.decode('unicode_escape'), code, raw_code_string, keywords])
             csv.write(output.encode('utf-8') + "\n")
 
-        def chunk_report(bytes_so_far, chunk_size, total_size):
-            percent = float(bytes_so_far) / total_size
-            percent = int(round(percent * 100, 2))
-
-            if int(last_pct) < int(percent):
-                #print("Downloaded {} of {} bytes {:0.2f}%".format(bytes_so_far, total_size, percent))
-                last_pct = int(percent)
-                sys.stdout.write("Downloaded %d of %d bytes (%0.2f%%)\r" % (bytes_so_far, total_size, percent))
-
-            #if bytes_so_far >= total_size:
-                #sys.stdout.write('\n')
-
-        def chunk_read(response, chunk_size=8192, report_hook=None):
-            total_size = response.info().getheader('Content-Length').strip()
-            total_size = int(total_size)
-            bytes_so_far = 0
-
-            while 1:
-                chunk = response.read(chunk_size)
-                bytes_so_far += len(chunk)
-
-                if not chunk:
-                    break
-
-                if report_hook:
-                    report_hook(bytes_so_far, chunk_size, total_size)
-
-            return bytes_so_far
+        # def chunk_report(bytes_so_far, chunk_size, total_size):
+        #     percent = float(bytes_so_far) / total_size
+        #     percent = int(round(percent * 100, 2))
+        #
+        #     if int(self.last_pct) < int(percent):
+        #         #print("Downloaded {} of {} bytes {:0.2f}%".format(bytes_so_far, total_size, percent))
+        #         self.last_pct = int(percent)
+        #         sys.stdout.write("Downloaded %d of %d bytes (%0.2f%%)\r" % (bytes_so_far, total_size, percent))
+        #
+        #     #if bytes_so_far >= total_size:
+        #         #sys.stdout.write('\n')
+        #
+        # def chunk_read(response, chunk_size=8192, report_hook=None):
+        #     total_size = response.info().getheader('Content-Length').strip()
+        #     total_size = int(total_size)
+        #     bytes_so_far = 0
+        #
+        #     while 1:
+        #         chunk = response.read(chunk_size)
+        #         bytes_so_far += len(chunk)
+        #
+        #         if not chunk:
+        #             break
+        #
+        #         if report_hook:
+        #             report_hook(bytes_so_far, chunk_size, total_size)
+        #
+        #     return bytes_so_far
 
         ###################################
         # END INTERNAL FUNCTION definition
@@ -92,30 +132,38 @@ class DataFilerBuilder():
         if not test_mode:
             notify(title=u'Emoji Taco', text=u'Initializing emoji data', sound=None)
 
-        try:
+        with open('unicode.html', 'wb') as unicode_file:
+
             try:
-                if test_mode:
-                    print "Querying: ", url1
-                html = urllib2.urlopen(url1, timeout=10000)
-                chunk_read(html, report_hook=chunk_report)
+                try:
+                    if test_mode:
+                        print "Querying: ", url1
+                    html = urllib2.urlopen(url1, timeout=10000)
+                    self.download_chunk_read(html, report_hook=self.download_chunk_report, output_file=unicode_file)
 
 
+                except Exception as e:
+                    if test_mode:
+                        print "Fall back query: ", url2
+                    html = urllib2.urlopen(url2, timeout=10000)
+                    self.download_chunk_read(html, report_hook=self.download_chunk_report, output_file=unicode_file)
+                    print(e)
+            except urllib2.HTTPError as e:
+                if not test_mode:
+                    notify(title='ERROR', text=str(e))
+                exit()
             except Exception as e:
-                if test_mode:
-                    print "Fall back query: ", url2
-                html = urllib2.urlopen(url2, timeout=10000)
-                chunk_read(html, report_hook=chunk_report)
-                print(e)
-        except urllib2.HTTPError as e:
-            if not test_mode:
-                notify(title='ERROR', text=str(e))
-            exit()
-        except Exception as e:
-            if not test_mode:
-                notify(title='Error', text=str(e))
-            else:
-                print str(e)
-            exit()
+                if not test_mode:
+                    notify(title='Error', text=str(e))
+                else:
+                    print str(e)
+                exit()
+
+
+        # OPEN UP THE FILE NOW FOR READING
+
+        html = open('unicode.html','rb').read()
+
 
         if not test_mode:
             notify(title=u'Emoji Taco', text=u'Converting emoji data', sound=None)
@@ -205,6 +253,9 @@ class DataFilerBuilder():
                         f.write(img_data)
 
                 emoji_count += 1
+
+                if not test_mode and (emoji_count % 500) == 0:
+                    notify(title=u'Emoji Taco', text=u'Parsed {} emoji'.format(emoji_count), sound=None)
 
                 if len(names) > 1:  # We have an alias definition
                     name = names[0]
