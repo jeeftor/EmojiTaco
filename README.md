@@ -41,7 +41,7 @@ If there are more than 9 matches a dialog showing the emoji count will appear.
 
 There are emoji that are not supported on Apple devices and/or not supported on OSX but maybe exist in a beta version of iOS.
 
-For example the Rainbow Flag emoji currently will render a pride flag on iOS but on OSX it will render a while flag followed by a rainbow symbol 🏳️‍🌈️.  You should still be able to use this and other emoji even if they render strangely on the current OS.
+For example the Rainbow Flag emoji currently will render a pride flag on iOS but on OSX (at the time of this writing) it will render a while flag followed by a rainbow symbol 🏳️‍🌈️.  You should still be able to use this and other emoji even if they render strangely on the current OS.
 
 # Configuration Options
 
