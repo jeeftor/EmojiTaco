@@ -46,8 +46,10 @@ class DataFilerBuilder():
 
         if int(self.last_download_percent) < int(percent):
             print("Downloaded {} of {} bytes {:0.2f}%".format(bytes_so_far, total_size, percent))
+            log.debug("Downloaded {} of {} bytes {:0.2f}%".format(bytes_so_far, total_size, percent))
             self.last_download_percent = int(percent)
             sys.stdout.write("Downloaded %d of %d bytes (%0.2f%%)\r" % (bytes_so_far, total_size, percent))
+            log.debug("Downloaded %d of %d bytes (%0.2f%%)\r" % (bytes_so_far, total_size, percent))
 
             # if bytes_so_far >= total_size:
             # sys.stdout.write('\n')
@@ -296,15 +298,20 @@ class DataFilerBuilder():
                 try:
                     if test_mode:
                         print "Querying: ", url_set1[1]
+                    else:
+                        log.debug("Querying: ", url_set1[1])
                     html = urllib2.urlopen(url_set1[1], timeout=10000)
                     self.download_chunk_read(html, report_hook=self.download_chunk_report, output_file=unicode_file)
 
                 except Exception as e:
                     if test_mode:
                         print "Fall back query: ", url_set2[1]
+                    else:
+                        log.debug("Fall back query: ", url_set2[1])
                     html = urllib2.urlopen(url_set2[1], timeout=10000)
                     self.download_chunk_read(html, report_hook=self.download_chunk_report, output_file=unicode_file)
                     print(e)
+                    log.debug(e)
             except urllib2.HTTPError as e:
                 if not test_mode:
                     notify(title='ERROR', text=str(e))
@@ -314,6 +321,7 @@ class DataFilerBuilder():
                     notify(title='Error', text=str(e))
                 else:
                     print str(e)
+                    log.debug(e)
                 exit()
 
         # OPEN UP THE FILE NOW FOR READING
@@ -327,3 +335,4 @@ def main(wf):
 if __name__ == '__main__':
     wf = Workflow3()
     sys.exit(wf.run(main))
+    log = wf.logger
