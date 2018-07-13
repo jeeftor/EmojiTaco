@@ -33,20 +33,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>20318ECF-9A92-49D1-84FD-A3DB37C2066E</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
-		<key>C2DC4C2B-6E56-41E8-825E-28095D9C7DD0</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>20318ECF-9A92-49D1-84FD-A3DB37C2066E</string>
+				<string>7D136522-923D-4ACA-AAE1-14513A3840A1</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -60,6 +47,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>22DEF54C-B689-4E7A-9C9C-1D73DC17BC80</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>F1696B06-782A-4912-B6C8-F2DF1C27A7D0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>28A8D1D3-A3A6-44D8-9DE4-C585C708A24F</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -99,8 +99,31 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>inputstring</key>
+				<string>{query}</string>
+				<key>matchcasesensitive</key>
+				<false/>
+				<key>matchmode</key>
+				<integer>1</integer>
+				<key>matchstring</key>
+				<string>init emoji</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>CCA9AA93-4819-4300-A6F2-DF376B00B121</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
@@ -149,25 +172,6 @@ python esearch.py $query</string>
 				<key>matchcasesensitive</key>
 				<false/>
 				<key>matchmode</key>
-				<integer>1</integer>
-				<key>matchstring</key>
-				<string>init emoji</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.filter</string>
-			<key>uid</key>
-			<string>CCA9AA93-4819-4300-A6F2-DF376B00B121</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>inputstring</key>
-				<string>{query}</string>
-				<key>matchcasesensitive</key>
-				<false/>
-				<key>matchmode</key>
 				<integer>0</integer>
 				<key>matchstring</key>
 				<string>init emoji</string>
@@ -182,46 +186,114 @@ python esearch.py $query</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
+				<key>alfredfiltersresults</key>
 				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
 				<key>escaping</key>
 				<integer>102</integer>
-				<key>script</key>
-				<string>python buildDataFiles.py</string>
-				<key>scriptargtype</key>
+				<key>keyword</key>
+				<string>init emoji</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
 				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>python src/downloadDataFiles.py </string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
 				<key>scriptfile</key>
 				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Init Emoji</string>
 				<key>type</key>
 				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>20318ECF-9A92-49D1-84FD-A3DB37C2066E</string>
+			<string>7D136522-923D-4ACA-AAE1-14513A3840A1</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
-				<integer>2</integer>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
 				<key>keyword</key>
-				<string>init emoji</string>
+				<string>dbgemoji</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Debug Menu for Today</string>
+				<key>script</key>
+				<string>python src/magic.py "{query}"
+</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
 				<key>subtext</key>
-				<string>Scrape unicode.org for latest emoji set</string>
-				<key>text</key>
-				<string>Initialize the Emojis</string>
+				<string>Open debug menu</string>
+				<key>title</key>
+				<string>Emoji (debug)</string>
+				<key>type</key>
+				<integer>0</integer>
 				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>F1696B06-782A-4912-B6C8-F2DF1C27A7D0</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>transient</key>
 				<false/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
+			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
-			<string>C2DC4C2B-6E56-41E8-825E-28095D9C7DD0</string>
+			<string>28A8D1D3-A3A6-44D8-9DE4-C585C708A24F</string>
 			<key>version</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -241,18 +313,9 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 			<key>note</key>
 			<string>search for emoji</string>
 			<key>xpos</key>
-			<integer>100</integer>
+			<integer>80</integer>
 			<key>ypos</key>
-			<integer>50</integer>
-		</dict>
-		<key>20318ECF-9A92-49D1-84FD-A3DB37C2066E</key>
-		<dict>
-			<key>note</key>
-			<string>run the download script</string>
-			<key>xpos</key>
-			<integer>410</integer>
-			<key>ypos</key>
-			<integer>230</integer>
+			<integer>180</integer>
 		</dict>
 		<key>22DEF54C-B689-4E7A-9C9C-1D73DC17BC80</key>
 		<dict>
@@ -263,6 +326,13 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 			<key>ypos</key>
 			<integer>50</integer>
 		</dict>
+		<key>28A8D1D3-A3A6-44D8-9DE4-C585C708A24F</key>
+		<dict>
+			<key>xpos</key>
+			<integer>350</integer>
+			<key>ypos</key>
+			<integer>440</integer>
+		</dict>
 		<key>7CA6CF39-136D-49FF-A58E-F1779E4067C0</key>
 		<dict>
 			<key>xpos</key>
@@ -270,14 +340,14 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 			<key>ypos</key>
 			<integer>180</integer>
 		</dict>
-		<key>C2DC4C2B-6E56-41E8-825E-28095D9C7DD0</key>
+		<key>7D136522-923D-4ACA-AAE1-14513A3840A1</key>
 		<dict>
 			<key>note</key>
-			<string>Initialize the Emoji workflow by downloading data from unicode.org</string>
+			<string>New and improved version of emoji initialization</string>
 			<key>xpos</key>
-			<integer>90</integer>
+			<integer>400</integer>
 			<key>ypos</key>
-			<integer>230</integer>
+			<integer>240</integer>
 		</dict>
 		<key>CCA9AA93-4819-4300-A6F2-DF376B00B121</key>
 		<dict>
@@ -286,6 +356,13 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 			<key>ypos</key>
 			<integer>80</integer>
 		</dict>
+		<key>F1696B06-782A-4912-B6C8-F2DF1C27A7D0</key>
+		<dict>
+			<key>xpos</key>
+			<integer>100</integer>
+			<key>ypos</key>
+			<integer>440</integer>
+		</dict>
 	</dict>
 	<key>variables</key>
 	<dict>
@@ -293,7 +370,7 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 		<string>e</string>
 	</dict>
 	<key>version</key>
-	<string>0.9.58</string>
+	<string>1.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/jeeftor/EmojiTaco</string>
 </dict>
