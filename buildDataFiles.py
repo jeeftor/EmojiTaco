@@ -75,7 +75,7 @@ class DataFilerBuilder():
 
 
 
-    def buildData(self, wf, test_mode=True):
+    def buildData(self, wf, test_mode=False):
 
         def convert_to_unicode(str):
             """Takes a string in the form of U+XXX and turns it into a \UXXXXXXXX """
