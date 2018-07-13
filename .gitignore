@@ -1,6 +1,7 @@
 .idea/
 *.pyc
 *.csv
+img/*
 
 *.alfredworkflow
 *.alfredworkflow3
