@@ -269,22 +269,22 @@ class DataFilerBuilder():
                 try:
                     if test_mode:
                         print "Querying: ", url_set1[0]
-                    html = urllib2.urlopen(url_set1[0], timeout=10000)
+                    html = urllib2.urlopen(url_set1[0], timeout=5000)
                     self.download_chunk_read(html, report_hook=self.download_chunk_report, output_file=unicode_file)
 
                 except Exception as e:
                     if test_mode:
                         print "Fall back query: ", url_set2[0]
-                    html = urllib2.urlopen(url_set2[0], timeout=10000)
+                    html = urllib2.urlopen(url_set2[0], timeout=5000)
                     self.download_chunk_read(html, report_hook=self.download_chunk_report, output_file=unicode_file)
                     print(e)
             except urllib2.HTTPError as e:
                 if not test_mode:
-                    notify(title='ERROR', text=str(e))
+                    notify(title='ERROR: base-unicode ', text=str(e))
                 exit()
             except Exception as e:
                 if not test_mode:
-                    notify(title='Error', text=str(e))
+                    notify(title='Error: base-unicode', text=str(e))
                 else:
                     print str(e)
                 exit()
@@ -300,7 +300,7 @@ class DataFilerBuilder():
                         print "Querying: ", url_set1[1]
                     else:
                         log.debug("Querying: ", url_set1[1])
-                    html = urllib2.urlopen(url_set1[1], timeout=10000)
+                    html = urllib2.urlopen(url_set1[1], timeout=5000)
                     self.download_chunk_read(html, report_hook=self.download_chunk_report, output_file=unicode_file)
 
                 except Exception as e:
@@ -308,17 +308,17 @@ class DataFilerBuilder():
                         print "Fall back query: ", url_set2[1]
                     else:
                         log.debug("Fall back query: ", url_set2[1])
-                    html = urllib2.urlopen(url_set2[1], timeout=10000)
+                    html = urllib2.urlopen(url_set2[1], timeout=5000)
                     self.download_chunk_read(html, report_hook=self.download_chunk_report, output_file=unicode_file)
                     print(e)
                     log.debug(e)
             except urllib2.HTTPError as e:
                 if not test_mode:
-                    notify(title='ERROR', text=str(e))
+                    notify(title='ERROR: skin-tone', text=str(e))
                 exit()
             except Exception as e:
                 if not test_mode:
-                    notify(title='Error', text=str(e))
+                    notify(title='Error: skin-tone', text=str(e))
                 else:
                     print str(e)
                     log.debug(e)
@@ -336,3 +336,4 @@ if __name__ == '__main__':
     wf = Workflow3()
     sys.exit(wf.run(main))
     log = wf.logger
+    log.info('LOGGER TEST!')
