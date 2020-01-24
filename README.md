@@ -4,6 +4,17 @@
 
 [**Download the latest release**](https://github.com/jeeftor/EmojiTaco/releases)
 
+## Catalina Notes
+
+<span style="color:red">NOTE:</span> Security settings 
+
+On catalina you may get an error like this:
+![docs/catalina1.png](docs/catalina1.png)
+
+Open **Security & Privacy** settings and 
+![docs/catalina2.png](docs/catalina2.png)
+select the **Always Allow** button
+
 ## About
 This emoji workflow scrapes Unicode.org to pull down the latest set of EMOJI!!.  On first run you **must** be connected to the Internet so that you can generate the initial Emoji set.  As new emoji are released you should be able to re-generate to keep the plugin up to date.
 
