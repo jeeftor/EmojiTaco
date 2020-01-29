@@ -94,7 +94,7 @@
 			<key>uid</key>
 			<string>22DEF54C-B689-4E7A-9C9C-1D73DC17BC80</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -122,6 +122,8 @@
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -162,7 +164,7 @@ python esearch.py $query</string>
 			<key>uid</key>
 			<string>157AEB44-CD30-445B-B751-7CEDE94BC8A0</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -190,6 +192,8 @@ python esearch.py $query</string>
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -209,7 +213,8 @@ python esearch.py $query</string>
 				<key>runningsubtext</key>
 				<string></string>
 				<key>script</key>
-				<string>python src/downloadDataFiles.py </string>
+				<string>find . -name '*.so' | xargs xattr -d -r com.apple.quarantine
+python src/downloadDataFiles.py </string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -228,7 +233,7 @@ python esearch.py $query</string>
 			<key>uid</key>
 			<string>7D136522-923D-4ACA-AAE1-14513A3840A1</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -237,6 +242,8 @@ python esearch.py $query</string>
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -276,7 +283,7 @@ python esearch.py $query</string>
 			<key>uid</key>
 			<string>F1696B06-782A-4912-B6C8-F2DF1C27A7D0</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -293,7 +300,7 @@ python esearch.py $query</string>
 			<key>uid</key>
 			<string>28A8D1D3-A3A6-44D8-9DE4-C585C708A24F</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 	</array>
 	<key>readme</key>
