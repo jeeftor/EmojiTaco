@@ -15,6 +15,7 @@ home = expanduser("~")
 token_file = home + "/.github_access_token"
 GITHUB_ACCESS_TOKEN = open(token_file, "r").read()
 
+echo "TOKEN: [${GITHUB_ACCESS_TOKEN}]"
 
 def pp_json(json_thing, sort=True, indents=4):
     if type(json_thing) is str:
