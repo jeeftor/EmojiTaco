@@ -1,5 +1,5 @@
 import sys
-import urllib
+import urllib2
 import json
 import os
 
@@ -59,8 +59,8 @@ request_headers['Content-Length'] = clen
 url = "https://api.github.com/repos/{}/{}/releases".format(GITHUB_USER, GITHUB_REPO)
 #url = 'https://api.github.com/repos/jeeftor/EmojiTaco/releases'
 print (url)
-req = urllib.Request(url, data, headers=request_headers)
-f = urllib.urlopen(req)
+req = urllib2.Request(url, data, headers=request_headers)
+f = urllib2.urlopen(req)
 response = f.read()
 f.close()
 pp_json(response)
@@ -76,10 +76,10 @@ upload_data = open(upload_path, "rb")
 url = url + "?name={}".format(file_to_upload)
 
 # Upload the new workflow file
-request = urllib.Request(url, data=upload_data, headers=request_headers)
+request = urllib2.Request(url, data=upload_data, headers=request_headers)
 request.add_header('Cache-Control', 'no-cache')
 request.add_header('Content-Length', '%d' % upload_data_len)
-res = urllib.urlopen(request).read().strip()
+res = urllib2.urlopen(request).read().strip()
 
 
 
