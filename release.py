@@ -15,7 +15,6 @@ home = expanduser("~")
 token_file = home + "/.github_access_token"
 GITHUB_ACCESS_TOKEN = open(token_file, "r").read()
 
-echo "TOKEN: [${GITHUB_ACCESS_TOKEN}]"
 
 def pp_json(json_thing, sort=True, indents=4):
     if type(json_thing) is str:
@@ -30,7 +29,8 @@ print (sys.argv)
 version = sys.argv[1]
 file_to_upload = sys.argv[2]
 
-github_token = str(GITHUB_ACCESS_TOKEN)
+github_token = str(GITHUB_ACCESS_TOKEN).rstrip()
+
 
 #curl -i -H 'Authorization: token 5b8e3a4d92993282d2a8f20b5fe4910edc9f82dd' https://api.github.com/user/repos
 
