@@ -24,7 +24,7 @@ def pp_json(json_thing, sort=True, indents=4):
     return None
 
 
-print sys.argv
+print (sys.argv)
 
 version = sys.argv[1]
 file_to_upload = sys.argv[2]
@@ -39,7 +39,7 @@ request_headers = {
     }
 
 
-print request_headers
+print (request_headers)
 
 # Release INFO
 payload = {
