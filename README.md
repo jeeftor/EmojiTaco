@@ -1,8 +1,20 @@
+
+[![Donate via PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg?style=flat-square)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=J4ECF77LB2BCE&currency_code=USD&source=url)
+
+[![Become a Patron!](https://img.shields.io/badge/Patreon-Become%20a%20Patron!-orange.svg?style=flat-square)](https://www.patreon.com/fvcproductions)
+
+
+
 [![Build Status](https://travis-ci.org/jeeftor/EmojiTaco.svg?branch=master)](https://travis-ci.org/jeeftor/EmojiTaco)
 
 # Emoji Taco 🌮 
 
 [**Download the latest release**](https://github.com/jeeftor/EmojiTaco/releases)
+
+### Unicode website
+
+If you run in to trouble its possible the unicode website is down. You can check [here](https://downfor.io/unicode.org). _This was an issue 9/10 April 2020_
+
 
 ## Catalina Notes
 
