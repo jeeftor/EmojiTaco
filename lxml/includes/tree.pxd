@@ -61,6 +61,7 @@ cdef extern from "libxml/encoding.h":
 
 cdef extern from "libxml/chvalid.h":
     cdef int xmlIsChar_ch(char c) nogil
+    cdef int xmlIsCharQ(int ch) nogil
 
 cdef extern from "libxml/hash.h":
     ctypedef struct xmlHashTable
@@ -285,6 +286,7 @@ cdef extern from "libxml/tree.h":
         xmlAttr* prev
         xmlDoc* doc
         xmlNs* ns
+        xmlAttributeType atype
 
     ctypedef struct xmlID:
         const_xmlChar* value
@@ -333,7 +335,9 @@ cdef extern from "libxml/tree.h":
     cdef xmlAttr* xmlSetProp(xmlNode* node, const_xmlChar* name, const_xmlChar* value) nogil
     cdef xmlAttr* xmlSetNsProp(xmlNode* node, xmlNs* ns,
                                const_xmlChar* name, const_xmlChar* value) nogil
+    cdef int xmlRemoveID(xmlDoc* doc, xmlAttr* cur) nogil
     cdef int xmlRemoveProp(xmlAttr* cur) nogil
+    cdef void xmlFreePropList(xmlAttr* cur) nogil
     cdef xmlChar* xmlGetNodePath(xmlNode* node) nogil
     cdef void xmlDocDumpMemory(xmlDoc* cur, char** mem, int* size) nogil
     cdef void xmlDocDumpMemoryEnc(xmlDoc* cur, char** mem, int* size,
@@ -357,6 +361,8 @@ cdef extern from "libxml/tree.h":
     cdef void xmlNodeDumpOutput(xmlOutputBuffer* buf,
                                 xmlDoc* doc, xmlNode* cur, int level,
                                 int format, const_char* encoding) nogil
+    cdef void xmlBufAttrSerializeTxtContent(xmlOutputBuffer *buf, xmlDoc *doc,
+                                xmlAttr *attr, const_xmlChar *string) nogil
     cdef void xmlNodeSetName(xmlNode* cur, const_xmlChar* name) nogil
     cdef void xmlNodeSetContent(xmlNode* cur, const_xmlChar* content) nogil
     cdef xmlDtd* xmlCopyDtd(xmlDtd* dtd) nogil
