@@ -7,18 +7,14 @@ import sys
 
 import base64
 import urllib2
-
 import os
 import shutil
 
 
-
-
-class DataFilerBuilder():
+class DataFilerBuilder:
 
     def __init__(self):
         self.last_download_percent = 0
-
 
     @staticmethod
     def my_super_copy(what, where):
@@ -75,8 +71,6 @@ class DataFilerBuilder():
 
         return bytes_so_far
 
-
-
     def buildData(self, wf, test_mode=False):
 
         def convert_to_unicode(str):
@@ -89,7 +83,6 @@ class DataFilerBuilder():
             ret += "\U0000FE0F"
             return ret
 
-
         def parse_html_files():
 
             # Open the output file
@@ -97,7 +90,6 @@ class DataFilerBuilder():
 
             parse_html_file(csv, 'unicode.html', u'Converting emoji data')
             parse_html_file(csv, 'skin-tones.html', u'Converting skin-tone data')
-
 
         def parse_html_file(csv, file_name, message):
 
@@ -107,12 +99,13 @@ class DataFilerBuilder():
                     [str(number) + ".png", print_name, code.decode('unicode_escape'), code, raw_code_string, keywords])
                 csv.write(output.encode('utf-8') + "\n")
 
-
-            html = open(file_name,'rb').read()
+            html = open(file_name, 'rb').read()
 
             if not test_mode:
                 notify(title=u'Emoji Taco', text=message, sound=None)
-                soup = BeautifulSoup(html, "lxml")
+                # soup = BeautifulSoup(html, "lxml")
+                # Trying out native parsing - adios lxml??
+                soup = BeautifulSoup(html, "html.parser")
             else:
                 soup = BeautifulSoup(html)
 
@@ -120,7 +113,6 @@ class DataFilerBuilder():
 
             # Used to handle alias situations
             alias_dict = {}
-
 
             if not test_mode:
                 notify(title=u'Emoji Taco', text=u'Parsing emoji data', sound=None)
@@ -179,7 +171,8 @@ class DataFilerBuilder():
                     alias = None
                     name = None
 
-                    keywords = cols[headers[u'CLDR Short Name']].text.replace("|", '').replace('  ', ' ').replace('  ', ' ')
+                    keywords = cols[headers[u'CLDR Short Name']].text.replace("|", '').replace('  ', ' ').replace('  ',
+                                                                                                                  ' ')
 
                     image_filename = "img/" + str(number) + '.png'
 
@@ -221,8 +214,8 @@ class DataFilerBuilder():
                     print_result(name)
 
             if not test_mode:
-                notify(title=u'Emoji Taco', text=u'Is ready for use. {} emoji processed'.format(emoji_count), sound=None)
-
+                notify(title=u'Emoji Taco', text=u'Is ready for use. {} emoji processed'.format(emoji_count),
+                       sound=None)
 
         # def chunk_report(bytes_so_far, chunk_size, total_size):
         #     percent = float(bytes_so_far) / total_size
@@ -257,8 +250,10 @@ class DataFilerBuilder():
         # END INTERNAL FUNCTION definition
         ###################################
 
-        url_set1 = ['http://unicode.org/emoji/charts-beta/full-emoji-list.html','http://unicode.org/emoji/charts-beta/full-emoji-modifiers.html']
-        url_set2 = ['http://unicode.org/emoji/charts/full-emoji-list.html','http://unicode.org/emoji/charts/full-emoji-modifiers.html']
+        url_set1 = ['http://unicode.org/emoji/charts-beta/full-emoji-list.html',
+                    'http://unicode.org/emoji/charts-beta/full-emoji-modifiers.html']
+        url_set2 = ['http://unicode.org/emoji/charts/full-emoji-list.html',
+                    'http://unicode.org/emoji/charts/full-emoji-modifiers.html']
 
         if not test_mode:
             notify(title=u'Emoji Taco', text=u'Initializing base emoji data', sound=None)
@@ -327,6 +322,7 @@ class DataFilerBuilder():
         # OPEN UP THE FILE NOW FOR READING
         parse_html_files()
 
+
 def main(wf):
     dfb = DataFilerBuilder()
     dfb.buildData(wf)
@@ -334,6 +330,5 @@ def main(wf):
 
 if __name__ == '__main__':
     wf = Workflow3()
-    sys.exit(wf.run(main))
     log = wf.logger
-    log.info('LOGGER TEST!')
+    sys.exit(wf.run(main))
