@@ -27,12 +27,12 @@ def main(wf):
     wf.store_data('phase', 'downloading')
     wf.store_data('download_progress', "%d/2" % file_count)
 
-    for url in [BETA_EMOJI, BETA_SKIN]:
-        file_count += 1
-        file_name = url.split('/')[-1]
-        wf.store_data('download_progress', "%d/2" % file_count)
-        wf.store_data('download_file', file_name)
-        download_file(url, file_name)
+    # for url in [BETA_EMOJI, BETA_SKIN]:
+    #     file_count += 1
+    #     file_name = url.split('/')[-1]
+    #     wf.store_data('download_progress', "%d/2" % file_count)
+    #     wf.store_data('download_file', file_name)
+    #     download_file(url, file_name)
 
     wf.store_data('phase', 'processing')
     parseFiles()
@@ -138,7 +138,7 @@ def parse_html_file(csv, file_name, message):
 
     # if not test_mode:
     notify(title=u'Emoji Taco', text=message, sound=None)
-    soup = BeautifulSoup(html, "lxml")
+    soup = BeautifulSoup(html, "html.parser")
     # else:
     #     soup = BeautifulSoup(html)
 
