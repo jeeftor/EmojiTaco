@@ -18,6 +18,9 @@ If you run in to trouble its possible the unicode website is down. You can check
 
 ## Catalina Notes
 
+- _As of latest version this section may not be needed - I no longer use `lxml`_
+- If you do get this error I guess follow these directions
+
 <span style="color:red">NOTE:</span> Security settings 
 
 On catalina you may get an error like this:
