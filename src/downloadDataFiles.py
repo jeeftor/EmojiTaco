@@ -91,6 +91,6 @@ def main(wf):
 
 
 if __name__ == '__main__':
-    wf = Workflow3()
+    wf = Workflow()
     log = wf.logger
     sys.exit(wf.run(main))
