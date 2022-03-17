@@ -1,17 +1,24 @@
 # -*- coding: utf-8 -*-
 
 import sys
+from urllib.request import urlopen
+
+import os
+print(os.environ['PYTHONPATH'])
+
+# sys.path.insert(0, os.path.abspath('..'))
+# sys.path.append(".")
+
 from workflow import Workflow3
-import urllib2, sys
-import shutil
 from workflow.notify import notify
+import shutil
 from bs4 import BeautifulSoup
 import base64
 
-RUNWAY_URL  = 'http://ourairports.com/data/runways.csv'
+RUNWAY_URL = 'http://ourairports.com/data/runways.csv'
 AIRPORT_URL = 'http://ourairports.com/data/airports.csv'
-FRQ_URL     = 'http://ourairports.com/data/airport-frequencies.csv'
-NAVAID_URL  = 'http://ourairports.com/data/navaids.csv'
+FRQ_URL = 'http://ourairports.com/data/airport-frequencies.csv'
+NAVAID_URL = 'http://ourairports.com/data/navaids.csv'
 
 BETA_EMOJI = 'http://unicode.org/emoji/charts-beta/full-emoji-list.html'
 BETA_SKIN = 'http://unicode.org/emoji/charts-beta/full-emoji-modifiers.html'
@@ -21,7 +28,6 @@ SKIN = 'http://unicode.org/emoji/charts/full-emoji-modifiers.html'
 
 
 def main(wf):
-
     file_count = 0
     wf.store_data('emoji_count', 0)
     wf.store_data('phase', 'downloading')
@@ -38,6 +44,7 @@ def main(wf):
     parseFiles()
 
     wf.store_data('phase', 'done')
+
 
 def parseFiles():
     log.info("Parsing Downloaded Files")
@@ -56,24 +63,21 @@ def parseFiles():
 
 
 def download_file(url, file_name):
-
     file_url = url.lower()
 
     log.info("Downloading " + file_url)
     temp_filename = file_name + '.tmp'
 
     f = open(temp_filename, 'wb')
-    remote_file = urllib2.urlopen(file_url)
-
+    remote_file = urlopen(file_url)
     try:
-        total_size = remote_file.info().getheader('Content-Length').strip()
+        total_size = remote_file.info()['Content-Length'].strip()
         header = True
     except AttributeError:
         header = False  # a response doesn't always include the "Content-Length" header
 
     if header:
         total_size = int(total_size)
-
     bytes_so_far = 0
 
     while True:
@@ -90,15 +94,16 @@ def download_file(url, file_name):
         percent = float(bytes_so_far) / total_size
         percent = round(percent * 100, 2)
         log.info("%s Downloaded %d of %d bytes %0.2f%%\r" % (file_name, bytes_so_far, total_size, percent))
-        #sys.stdout.write("Downloaded %d of %d bytes (%0.2f%%)\r" % (bytes_so_far, total_size, percent))
-        print percent
-        wf.store_data('download_percent', percent)#"%0.1f" % percent)
-
+        # sys.stdout.write("Downloaded %d of %d bytes (%0.2f%%)\r" % (bytes_so_far, total_size, percent))
+        print(percent)
+        wf.store_data('download_percent', percent)  # "%0.1f" % percent)
 
     # Rename dl file to actual file
     shutil.move(temp_filename, file_name)
+
+
 def convert_to_unicode(str):
-    """Takes a string in the form of U+XXX and turns it into a \UXXXXXXXX """
+    """Takes a string in the form of U+XXX and turns it into a \\UXXXXXXXX"""
     ret = ""
     for uni in str.replace("U+", "").split(" "):
         ret += "\U00000000"[:-len(uni)] + uni
@@ -126,15 +131,15 @@ def build_headers(cols):
         # print("Header : " + cols[i].text)
     return headers
 
-def parse_html_file(csv, file_name, message):
 
+def parse_html_file(csv, file_name, message):
     # Print / write the output as needed
-    def print_result( print_name):
+    def print_result(print_name):
         output = '\t'.join(
             [str(number) + ".png", print_name, code.decode('unicode_escape'), code, raw_code_string, keywords])
         csv.write(output.encode('utf-8') + "\n")
 
-    html = open(file_name,'rb').read()
+    html = open(file_name, 'rb').read()
 
     # if not test_mode:
     notify(title=u'Emoji Taco', text=message, sound=None)
@@ -208,7 +213,6 @@ def parse_html_file(csv, file_name, message):
 
             keywords = cols[headers[u'CLDR Short Name']].text.replace("|", '').replace('  ', ' ').replace('  ', ' ')
 
-
             emoji_count += 1
             wf.store_data('emoji_count', emoji_count)
             number = emoji_count
@@ -225,7 +229,6 @@ def parse_html_file(csv, file_name, message):
                 img_data = base64.b64decode(cols[headers[u'Appl']].contents[0].attrs['src'].split(',')[1])
                 with open(image_filename, 'wb') as f:
                     f.write(img_data)
-
 
             if (emoji_count % 500) == 0:
                 notify(title=u'Emoji Taco', text=u'Parsed {} emoji'.format(emoji_count), sound=None)
@@ -246,11 +249,10 @@ def parse_html_file(csv, file_name, message):
                 name = names[0]
 
             if alias:
-                print_result( alias.upper())
+                print_result(alias.upper())
 
-            print_result( name)
+            print_result(name)
 
-   
 
 if __name__ == u"__main__":
     wf = Workflow3()

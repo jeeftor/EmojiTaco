@@ -80,7 +80,7 @@ def main(wf):
         wf.store_data('phase', 'downloading')
         wf.store_data('emoji_count', 0)
         wf.add_item('Starting background process')
-        run_in_background('bg', ['/usr/bin/python', wf.workflowfile('src/bg_downloader.py')])
+        run_in_background('bg', ['/usr/bin/python3', wf.workflowfile('src/bg_downloader.py')])
 
     else:
         build_wf_entry(wf)
@@ -91,6 +91,6 @@ def main(wf):
 
 
 if __name__ == '__main__':
-    wf = Workflow()
+    wf = Workflow3()
     log = wf.logger
     sys.exit(wf.run(main))

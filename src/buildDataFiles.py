@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-
-from workflow import Workflow3
-from workflow.notify import notify
-from bs4 import BeautifulSoup
+from libs.workflow import  Workflow3
+from libs.workflow.notify import notify
+from libs.bs4 import BeautifulSoup
 import sys
 
 import base64
-import urllib2
 import os
 import shutil
 
