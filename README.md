@@ -1,4 +1,3 @@
-
 [![Donate via PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg?style=flat-square)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=J4ECF77LB2BCE&currency_code=USD&source=url)
 
 [![Become a Patron!](https://img.shields.io/badge/Patreon-Become%20a%20Patron!-orange.svg?style=flat-square)](https://www.patreon.com/fvcproductions)
@@ -7,7 +6,7 @@
 
 [![Build Status](https://travis-ci.org/jeeftor/EmojiTaco.svg?branch=master)](https://travis-ci.org/jeeftor/EmojiTaco)
 
-# Emoji Taco 🌮 
+# Emoji Taco 🌮
 
 [**Download the latest release**](https://github.com/jeeftor/EmojiTaco/releases)
 
@@ -21,12 +20,12 @@ If you run in to trouble its possible the unicode website is down. You can check
 - _As of latest version this section may not be needed - I no longer use `lxml`_
 - If you do get this error I guess follow these directions
 
-<span style="color:red">NOTE:</span> Security settings 
+<span style="color:red">NOTE:</span> Security settings
 
 On catalina you may get an error like this:
 ![docs/catalina1.png](docs/catalina1.png)
 
-Open **Security & Privacy** settings and 
+Open **Security & Privacy** settings and
 ![docs/catalina2.png](docs/catalina2.png)
 select the **Always Allow** button
 
@@ -55,7 +54,7 @@ You can use the `-` to exclude items from a search such as:
 ![](docs/complexsearch.png)
 
 # Emoji Count
-If there are more than 9 matches a dialog showing the emoji count will appear.  
+If there are more than 9 matches a dialog showing the emoji count will appear.
 ![](docs/ecount.png)
 
 
@@ -78,4 +77,3 @@ For example the Rainbow Flag emoji currently will render a pride flag on iOS but
 You can change the keyword in the settings of the workflow
 
 ![](docs/settings.png)
-

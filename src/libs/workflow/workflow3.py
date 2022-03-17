@@ -1,4 +1,3 @@
-# encoding: utf-8
 #
 # Copyright (c) 2016 Dean Jackson <deanishe@deanishe.net>
 #
@@ -67,7 +66,7 @@ class Variables(dict):
         """Create a new `Variables` object."""
         self.arg = arg
         self.config = {}
-        super(Variables, self).__init__(**variables)
+        super().__init__(**variables)
 
     @property
     def obj(self):
@@ -103,7 +102,7 @@ class Variables(dict):
         return json.dumps(self.obj)
 
 
-class Modifier(object):
+class Modifier:
     """Modify :class:`Item3` arg/icon/variables when modifier key is pressed.
 
     Don't use this class directly (as it won't be associated with any
@@ -244,7 +243,7 @@ class Modifier(object):
         return icon
 
 
-class Item3(object):
+class Item3:
     """Represents a feedback item for Alfred 3+.
 
     Generates Alfred-compliant JSON for a single item.
@@ -633,7 +632,7 @@ class Workflow3(Workflow):
     @property
     def _session_prefix(self):
         """Filename prefix for current session."""
-        return "_wfsess-{0}-".format(self.session_id)
+        return f"_wfsess-{self.session_id}-"
 
     def _mk_session_name(self, name):
         """New cache name/key based on session ID."""
@@ -661,7 +660,7 @@ class Workflow3(Workflow):
         if session:
             name = self._mk_session_name(name)
 
-        return super(Workflow3, self).cache_data(name, data)
+        return super().cache_data(name, data)
 
     def cached_data(self, name, data_func=None, max_age=60, session=False):
         """Cache API with session-scoped expiry.
@@ -687,7 +686,7 @@ class Workflow3(Workflow):
         if session:
             name = self._mk_session_name(name)
 
-        return super(Workflow3, self).cached_data(name, data_func, max_age)
+        return super().cached_data(name, data_func, max_age)
 
     def clear_session_cache(self, current=False):
         """Remove session data from the cache.

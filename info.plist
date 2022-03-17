@@ -306,7 +306,7 @@ python src/downloadDataFiles.py </string>
 	<key>readme</key>
 	<string>This Emoji workflow was built because there were ZERO taco emoji workflows out there.
 
-use `e` to search for emoji. 
+use `e` to search for emoji.
 
 If you want you can customize this value under the workflow values.
 

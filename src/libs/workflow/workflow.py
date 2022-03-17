@@ -1,4 +1,3 @@
-# encoding: utf-8
 #
 # Copyright (c) 2014 Dean Jackson <deanishe@deanishe.net>
 #
@@ -39,7 +38,7 @@ from copy import deepcopy
 from typing import Optional
 
 try:
-    import xml.etree.cElementTree as ET
+    import xml.etree.ElementTree as ET
 except ImportError:  # pragma: no cover
     import xml.etree.ElementTree as ET
 
@@ -503,7 +502,7 @@ def isascii(text):
 ####################################################################
 
 
-class SerializerManager(object):
+class SerializerManager:
     """Contains registered serializers.
 
     .. versionadded:: 1.8
@@ -568,7 +567,7 @@ class SerializerManager(object):
 
         """
         if name not in self._serializers:
-            raise ValueError("No such serializer registered : {0}".format(name))
+            raise ValueError(f"No such serializer registered : {name}")
 
         serializer = self._serializers[name]
         del self._serializers[name]
@@ -692,7 +691,7 @@ manager.register("pickle", PickleSerializer)
 manager.register("json", JSONSerializer)
 
 
-class Item(object):
+class Item:
     """Represents a feedback item for Alfred.
 
     Generates Alfred-compliant XML for a single item.
@@ -816,7 +815,7 @@ class Settings(dict):
 
     def __init__(self, filepath, defaults=None):
         """Create new :class:`Settings` object."""
-        super(Settings, self).__init__()
+        super().__init__()
         self._filepath = filepath
         self._nosave = False
         self._original = {}
@@ -831,7 +830,7 @@ class Settings(dict):
         """Load cached settings from JSON file `self._filepath`."""
         data = {}
         with LockFile(self._filepath, 0.5):
-            with open(self._filepath, "r") as fp:
+            with open(self._filepath) as fp:
                 data.update(json.load(fp))
 
         self._original = deepcopy(data)
@@ -862,27 +861,27 @@ class Settings(dict):
     def __setitem__(self, key, value):
         """Implement :class:`dict` interface."""
         if self._original.get(key) != value:
-            super(Settings, self).__setitem__(key, value)
+            super().__setitem__(key, value)
             self.save()
 
     def __delitem__(self, key):
         """Implement :class:`dict` interface."""
-        super(Settings, self).__delitem__(key)
+        super().__delitem__(key)
         self.save()
 
     def update(self, *args, **kwargs):
         """Override :class:`dict` method to save on update."""
-        super(Settings, self).update(*args, **kwargs)
+        super().update(*args, **kwargs)
         self.save()
 
     def setdefault(self, key, value=None):
         """Override :class:`dict` method to save on update."""
-        ret = super(Settings, self).setdefault(key, value)
+        ret = super().setdefault(key, value)
         self.save()
         return ret
 
 
-class Workflow(object):
+class Workflow:
     """The ``Workflow`` object is the main interface to Alfred-Workflow.
 
     It provides APIs for accessing the Alfred/workflow environment,
@@ -1175,7 +1174,7 @@ class Workflow(object):
                 filepath = self.workflowfile("version")
 
                 if os.path.exists(filepath):
-                    with open(filepath, "r") as fileobj:
+                    with open(filepath) as fileobj:
                         version = fileobj.read()
 
             # info.plist
@@ -1217,7 +1216,7 @@ class Workflow(object):
         # Handle magic args
         if len(args) and self._capture_args:
             for name in self.magic_arguments:
-                key = "{0}{1}".format(self.magic_prefix, name)
+                key = f"{self.magic_prefix}{name}"
                 if key in args:
                     msg = self.magic_arguments[name]()
 
@@ -1341,7 +1340,7 @@ class Workflow(object):
                     break
 
             if not self._workflowdir:
-                raise IOError("'info.plist' not found in directory tree")
+                raise OSError("'info.plist' not found in directory tree")
 
         return self._workflowdir
 
@@ -1520,7 +1519,7 @@ class Workflow(object):
         """
         if manager.serializer(serializer_name) is None:
             raise ValueError(
-                "Unknown serializer : `{0}`. Register your serializer "
+                "Unknown serializer : `{}`. Register your serializer "
                 "with `manager` first.".format(serializer_name)
             )
 
@@ -1563,7 +1562,7 @@ class Workflow(object):
         """
         if manager.serializer(serializer_name) is None:
             raise ValueError(
-                "Unknown serializer : `{0}`. Register your serializer "
+                "Unknown serializer : `{}`. Register your serializer "
                 "with `manager` first.".format(serializer_name)
             )
 
@@ -1581,27 +1580,27 @@ class Workflow(object):
         :param name: name of datastore
 
         """
-        metadata_path = self.datafile(".{0}.alfred-workflow".format(name))
+        metadata_path = self.datafile(f".{name}.alfred-workflow")
 
         if not os.path.exists(metadata_path):
             self.logger.debug("no data stored for `%s`", name)
             return None
 
-        with open(metadata_path, "r") as file_obj:
+        with open(metadata_path) as file_obj:
             serializer_name = file_obj.read().strip()
 
         serializer = manager.serializer(serializer_name)
 
         if serializer is None:
             raise ValueError(
-                "Unknown serializer `{0}`. Register a corresponding "
+                "Unknown serializer `{}`. Register a corresponding "
                 "serializer with `manager.register()` "
                 "to load this data.".format(serializer_name)
             )
 
         self.logger.debug("data `%s` stored as `%s`", name, serializer_name)
 
-        filename = "{0}.{1}".format(name, serializer_name)
+        filename = f"{name}.{serializer_name}"
         data_path = self.datafile(filename)
 
         if not os.path.exists(data_path):
@@ -1650,14 +1649,14 @@ class Workflow(object):
         # In order for `stored_data()` to be able to load data stored with
         # an arbitrary serializer, yet still have meaningful file extensions,
         # the format (i.e. extension) is saved to an accompanying file
-        metadata_path = self.datafile(".{0}.alfred-workflow".format(name))
-        filename = "{0}.{1}".format(name, serializer_name)
+        metadata_path = self.datafile(f".{name}.alfred-workflow")
+        filename = f"{name}.{serializer_name}"
         data_path = self.datafile(filename)
 
         if data_path == self.settings_path:
             raise ValueError(
                 "Cannot save data to"
-                + "`{0}` with format `{1}`. ".format(name, serializer_name)
+                + f"`{name}` with format `{serializer_name}`. "
                 + "This would overwrite Alfred-Workflow's settings file."
             )
 
@@ -1665,7 +1664,7 @@ class Workflow(object):
 
         if serializer is None:
             raise ValueError(
-                "Invalid serializer `{0}`. Register your serializer with "
+                "Invalid serializer `{}`. Register your serializer with "
                 "`manager.register()` first.".format(serializer_name)
             )
 
@@ -1674,7 +1673,7 @@ class Workflow(object):
             return
 
         if isinstance(data, str):
-            data = bytearray(data, encoding='utf16')
+            data = bytearray(data, encoding="utf16")
 
         # Ensure write is not interrupted by SIGTERM
         @uninterruptible
@@ -1708,7 +1707,7 @@ class Workflow(object):
         """
         serializer = manager.serializer(self.cache_serializer)
 
-        cache_path = self.cachefile("%s.%s" % (name, self.cache_serializer))
+        cache_path = self.cachefile(f"{name}.{self.cache_serializer}")
         age = self.cached_data_age(name)
 
         if (age < max_age or max_age == 0) and os.path.exists(cache_path):
@@ -1738,7 +1737,7 @@ class Workflow(object):
         """
         serializer = manager.serializer(self.cache_serializer)
 
-        cache_path = self.cachefile("%s.%s" % (name, self.cache_serializer))
+        cache_path = self.cachefile(f"{name}.{self.cache_serializer}")
 
         if data is None:
             if os.path.exists(cache_path):
@@ -1777,7 +1776,7 @@ class Workflow(object):
         :rtype: ``int``
 
         """
-        cache_path = self.cachefile("%s.%s" % (name, self.cache_serializer))
+        cache_path = self.cachefile(f"{name}.{self.cache_serializer}")
 
         if not os.path.exists(cache_path):
             return 0
@@ -2054,7 +2053,7 @@ class Workflow(object):
         pattern = []
         for c in query:
             # pattern.append('[^{0}]*{0}'.format(re.escape(c)))
-            pattern.append(".*?{0}".format(re.escape(c)))
+            pattern.append(f".*?{re.escape(c)}")
         pattern = "".join(pattern)
         search = re.compile(pattern, re.IGNORECASE).search
 
@@ -2636,7 +2635,7 @@ class Workflow(object):
 
         def show_version():
             if self.version:
-                return "Version: {0}".format(self.version)
+                return f"Version: {self.version}"
             else:
                 return "This workflow has no version number"
 

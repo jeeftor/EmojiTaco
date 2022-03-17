@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# encoding: utf-8
 #
 # Copyright (c) 2015 deanishe@deanishe.net
 #
@@ -142,7 +141,7 @@ def install_notifier():
 
     # Change bundle ID of installed app
     ip_path = os.path.join(app_path, "Contents/Info.plist")
-    bundle_id = "{0}.{1}".format(wf().bundleid, uuid.uuid4().hex)
+    bundle_id = f"{wf().bundleid}.{uuid.uuid4().hex}"
     data = plistlib.readPlist(ip_path)
     log().debug("changing bundle ID to %r", bundle_id)
     data["CFBundleIdentifier"] = bundle_id
@@ -205,11 +204,11 @@ def notify(title="", text="", sound=None):
     if retcode == 0:
         return True
 
-    log().error("Notify.app exited with status {0}.".format(retcode))
+    log().error(f"Notify.app exited with status {retcode}.")
     return False
 
 
-def usr_bin_env(*args: str) -> List[str]:
+def usr_bin_env(*args: str) -> list[str]:
     return ["/usr/bin/env", f'PATH={os.environ["PATH"]}'] + list(args)
 
 
@@ -264,7 +263,7 @@ def png_to_icns(png_path, icns_path):
         configs = []
         for i in (16, 32, 128, 256, 512):
             configs.append(("icon_{0}x{0}.png".format(i), i))
-            configs.append((("icon_{0}x{0}@2x.png".format(i), i * 2)))
+            configs.append(("icon_{0}x{0}@2x.png".format(i), i * 2))
 
         shutil.copy(png_path, os.path.join(iconset, "icon_256x256.png"))
         shutil.copy(png_path, os.path.join(iconset, "icon_128x128@2x.png"))
@@ -328,7 +327,7 @@ if __name__ == "__main__":  # pragma: nocover
             os.path.splitext(os.path.basename(o.png))[0] + ".icns",
         )
 
-        print("converting {0!r} to {1!r} ...".format(o.png, icns), file=sys.stderr)
+        print(f"converting {o.png!r} to {icns!r} ...", file=sys.stderr)
 
         if os.path.exists(icns):
             raise ValueError("destination file already exists: " + icns)

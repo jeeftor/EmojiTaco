@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# encoding: utf-8
 #
 # Copyright (c) 2014 Fabio Niephaus <fabio.niephaus@gmail.com>,
 #       Dean Jackson <deanishe@deanishe.net>
@@ -32,7 +31,6 @@ from functools import total_ordering
 from itertools import zip_longest
 
 import requests
-
 from workflow.util import atomic_writer
 
 from . import workflow
@@ -55,7 +53,7 @@ def wf():
 
 
 @total_ordering
-class Download(object):
+class Download:
     """A workflow file that is available for download.
 
     .. versionadded: 1.37
@@ -213,7 +211,7 @@ class Download(object):
         return self.alfred_version < other.alfred_version
 
 
-class Version(object):
+class Version:
     """Mostly semantic versioning.
 
     The main difference to proper :ref:`semantic versioning <semver>`
@@ -246,7 +244,7 @@ class Version(object):
             vstr (basestring): Semantic version string.
         """
         if not vstr:
-            raise ValueError("invalid version number: {!r}".format(vstr))
+            raise ValueError(f"invalid version number: {vstr!r}")
 
         self.vstr = vstr
         self.major = 0
@@ -304,7 +302,7 @@ class Version(object):
     def __lt__(self, other):
         """Implement comparison."""
         if not isinstance(other, Version):
-            raise ValueError("not a Version instance: {0!r}".format(other))
+            raise ValueError(f"not a Version instance: {other!r}")
         t = self.tuple[:3]
         o = other.tuple[:3]
         if t < o:
@@ -334,7 +332,7 @@ class Version(object):
     def __eq__(self, other):
         """Implement comparison."""
         if not isinstance(other, Version):
-            raise ValueError("not a Version instance: {0!r}".format(other))
+            raise ValueError(f"not a Version instance: {other!r}")
         return self.tuple == other.tuple
 
     def __ne__(self, other):
@@ -344,13 +342,13 @@ class Version(object):
     def __gt__(self, other):
         """Implement comparison."""
         if not isinstance(other, Version):
-            raise ValueError("not a Version instance: {0!r}".format(other))
+            raise ValueError(f"not a Version instance: {other!r}")
         return other.__lt__(self)
 
     def __le__(self, other):
         """Implement comparison."""
         if not isinstance(other, Version):
-            raise ValueError("not a Version instance: {0!r}".format(other))
+            raise ValueError(f"not a Version instance: {other!r}")
         return not other.__lt__(self)
 
     def __ge__(self, other):
@@ -359,16 +357,16 @@ class Version(object):
 
     def __str__(self):
         """Return semantic version string."""
-        vstr = "{0}.{1}.{2}".format(self.major, self.minor, self.patch)
+        vstr = f"{self.major}.{self.minor}.{self.patch}"
         if self.suffix:
-            vstr = "{0}-{1}".format(vstr, self.suffix)
+            vstr = f"{vstr}-{self.suffix}"
         if self.build:
-            vstr = "{0}+{1}".format(vstr, self.build)
+            vstr = f"{vstr}+{self.build}"
         return vstr
 
     def __repr__(self):
         """Return 'code' representation of `Version`."""
-        return "Version('{0}')".format(str(self))
+        return f"Version('{str(self)}')"
 
 
 def retrieve_download(dl):
@@ -409,7 +407,7 @@ def build_api_url(repo):
 
     """
     if len(repo.split("/")) != 2:
-        raise ValueError("invalid GitHub repo: {!r}".format(repo))
+        raise ValueError(f"invalid GitHub repo: {repo!r}")
 
     return RELEASES_BASE.format(repo)
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# encoding: utf-8
 #
 # Copyright (c) 2017 Dean Jackson <deanishe@deanishe.net>
 #
@@ -456,7 +455,7 @@ def atomic_writer(fpath, mode):
     :type mode: string
 
     """
-    suffix = ".{}.tmp".format(os.getpid())
+    suffix = f".{os.getpid()}.tmp"
     temppath = fpath + suffix
     with open(temppath, mode) as fp:
         try:
@@ -469,7 +468,7 @@ def atomic_writer(fpath, mode):
                 pass
 
 
-class LockFile(object):
+class LockFile:
     """Context manager to protect filepaths with lockfiles.
 
     .. versionadded:: 1.13
@@ -545,7 +544,7 @@ class LockFile(object):
                 fcntl.lockf(self._lockfile, fcntl.LOCK_EX | fcntl.LOCK_NB)
                 self._lock.set()
                 break
-            except IOError as err:  # pragma: no cover
+            except OSError as err:  # pragma: no cover
                 if err.errno not in (errno.EACCES, errno.EAGAIN):
                     raise
 
@@ -565,7 +564,7 @@ class LockFile(object):
 
         try:
             fcntl.lockf(self._lockfile, fcntl.LOCK_UN)
-        except IOError:  # pragma: no cover
+        except OSError:  # pragma: no cover
             pass
         finally:
             self._lock.clear()
@@ -591,7 +590,7 @@ class LockFile(object):
         self.release()  # pragma: no cover
 
 
-class uninterruptible(object):
+class uninterruptible:
     """Decorator that postpones SIGTERM until wrapped function returns.
 
     .. versionadded:: 1.12

@@ -1,4 +1,3 @@
-# encoding: utf-8
 #
 # Copyright (c) 2014 deanishe@deanishe.net
 #
@@ -256,9 +255,9 @@ def main(wf):  # pragma: no cover
     name = wf.args[0]
     argcache = _arg_cache(name)
     if not os.path.exists(argcache):
-        msg = "[{0}] command cache not found: {1}".format(name, argcache)
+        msg = f"[{name}] command cache not found: {argcache}"
         log.critical(msg)
-        raise IOError(msg)
+        raise OSError(msg)
 
     # Fork to background and run command
     pidfile = _pid_file(name)
