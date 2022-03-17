@@ -86,10 +86,10 @@ class DataFilerBuilder:
         def parse_html_files():
 
             # Open the output file
-            csv = open('emoji.tab', 'w')
+            csv = open('../emoji.tab', 'w')
 
-            parse_html_file(csv, 'unicode.html', u'Converting emoji data')
-            parse_html_file(csv, 'skin-tones.html', u'Converting skin-tone data')
+            parse_html_file(csv, '../unicode.html', u'Converting emoji data')
+            parse_html_file(csv, '../skin-tones.html', u'Converting skin-tone data')
 
         def parse_html_file(csv, file_name, message):
 
@@ -258,7 +258,7 @@ class DataFilerBuilder:
         if not test_mode:
             notify(title=u'Emoji Taco', text=u'Initializing base emoji data', sound=None)
 
-        with open('unicode.html', 'wb') as unicode_file:
+        with open('../unicode.html', 'wb') as unicode_file:
 
             try:
                 try:
@@ -287,7 +287,7 @@ class DataFilerBuilder:
         if not test_mode:
             notify(title=u'Emoji Taco', text=u'Initializing skin-tone emoji data', sound=None)
 
-        with open('skin-tones.html', 'wb') as unicode_file:
+        with open('../skin-tones.html', 'wb') as unicode_file:
 
             try:
                 try:

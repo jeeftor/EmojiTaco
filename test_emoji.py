@@ -1,6 +1,6 @@
 # content of test_sysexit.py
 import pytest
-from buildDataFiles import DataFilerBuilder
+from src.buildDataFiles import DataFilerBuilder
 from workflow import Workflow3, web
 # def f():
 #     raise SystemExit(1)

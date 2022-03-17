@@ -12,7 +12,7 @@ keyword_match = []
 
 def main(wf):
 
-    if os.path.isfile('emoji.tab'):
+    if os.path.isfile('../emoji.tab'):
         pass
     else:
         wf.add_item('Emoji not initialized.  Hit enter or type "init emoji".', 'The init script requires you to be connected to the internet', arg='init emoji', valid=True)
@@ -26,7 +26,7 @@ def main(wf):
         query = ''
 
 
-    with open('emoji.tab', 'r') as f:
+    with open('../emoji.tab', 'r') as f:
         for idx, line in enumerate(f,1):
             split_list = line.strip().split('\t')
             if len(split_list) != 6:
