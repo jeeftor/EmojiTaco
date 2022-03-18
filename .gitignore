@@ -708,6 +708,7 @@ FodyWeavers.xsd
 
 # Windows Installer files from build outputs
 
+
 # JetBrains Rider
 *.sln.iml
 
@@ -718,3 +719,6 @@ FodyWeavers.xsd
 
 
 .idea/
+
+
+**/**.dist-info
