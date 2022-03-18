@@ -1,6 +1,6 @@
 # content of test_sysexit.py
 import pytest
-from workflow import Workflow3, web
+from workflow import Workflow3
 
 from src.buildDataFiles import DataFilerBuilder
 

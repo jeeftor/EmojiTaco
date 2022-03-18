@@ -126,7 +126,7 @@ class DataFilerBuilder:
                 notify(title="Emoji Taco", text=message, sound=None)
                 # soup = BeautifulSoup(html, "lxml")
                 # Trying out native parsing - adios lxml??
-                soup = BeautifulSoup(html, "html.parser")
+                soup = BeautifulSoup(html, features="html.parser")
             else:
                 soup = BeautifulSoup(html)
 
@@ -383,10 +383,10 @@ class DataFilerBuilder:
         parse_html_files()
 
 
-def main(wf):
+def main(wf: Workflow3):
     """Define main function."""
     dfb = DataFilerBuilder()
-    dfb.buildData(wf)
+    dfb.buildData(wf, test_mode=False)
 
 
 if __name__ == "__main__":
