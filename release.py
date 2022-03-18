@@ -2,7 +2,6 @@ import json
 import os
 import sys
 
-import urllib2
 
 GITHUB_USER = "jeeftor"
 GITHUB_REPO = "EmojiTaco"
