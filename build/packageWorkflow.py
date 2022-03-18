@@ -178,15 +178,20 @@ def build_workflow(workflow_dir, outputdir, overwrite=False, verbose=False):
             target.close()
 
     if not version:
-        pl = plistlib.readPlist("info.plist")
+        with open('info.plist', 'rb') as f:
+            pl = plistlib.load(f)
         initial_version = semantic_version.Version.coerce(pl["version"])
         version = str(initial_version.next_patch())
 
         pl["version"] = version
-        plistlib.writePlist(pl, "info.plist")
+        with open('info.plist', 'wb') as f:
+            plistlib.dump(pl, f)
 
-    name = safename(plistlib.readPlist("info.plist")["name"]).replace(" ", "_")
-    zippath = os.path.join(outputdir, name)
+            # plistlib.writePlist(pl, "info.plist")
+    with open('info.plist', 'rb') as f:
+        pl = plistlib.load(f)
+        name = safename(pl["name"]).replace(" ", "_")
+        zippath = os.path.join(outputdir, name)
 
     if version:
         zippath += "-" + version
