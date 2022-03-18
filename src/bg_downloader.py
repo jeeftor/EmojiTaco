@@ -1,8 +1,11 @@
 """Background downloader script."""
+from __future__ import annotations
+
 import base64
 import os
 import shutil
 import sys
+from typing import TextIO
 from urllib.request import urlopen
 
 from bs4 import BeautifulSoup
@@ -21,21 +24,21 @@ EMOJI = "http://unicode.org/emoji/charts/full-emoji-list.html"
 SKIN = "http://unicode.org/emoji/charts/full-emoji-modifiers.html"
 
 
-def main(wf):
-    # """Define main function."""
-    # file_count = 0
-    # wf.store_data("emoji_count", 0)
-    # wf.store_data("phase", "downloading")
-    # wf.store_data("download_progress", "%d/2" % file_count)
-    #
-    # for url in [BETA_EMOJI, BETA_SKIN]:
-    #     file_count += 1
-    #     file_name = url.split("/")[-1]
-    #     wf.store_data("download_progress", "%d/2" % file_count)
-    #     wf.store_data("download_file", file_name)
-    #     download_file(url, file_name)
-    #
-    # wf.store_data("phase", "processing")
+def main(wf: Workflow3) -> None:
+    """Define main function."""
+    file_count = 0
+    wf.store_data("emoji_count", 0)
+    wf.store_data("phase", "downloading")
+    wf.store_data("download_progress", "%d/2" % file_count)
+
+    for url in [BETA_EMOJI, BETA_SKIN]:
+        file_count += 1
+        file_name = url.split("/")[-1]
+        wf.store_data("download_progress", "%d/2" % file_count)
+        wf.store_data("download_file", file_name)
+        download_file(url, file_name)
+
+    wf.store_data("phase", "processing")
     parseFiles()
 
     wf.store_data("phase", "done")
@@ -62,7 +65,7 @@ def parseFiles() -> None:
     )
 
 
-def download_file(url, file_name) -> None:
+def download_file(url: str, file_name: str) -> None:
     """Download a specific file."""
     file_url = url.lower()
 
@@ -106,7 +109,7 @@ def download_file(url, file_name) -> None:
     shutil.move(temp_filename, file_name)
 
 
-def convert_to_unicode(input_string: str) -> bytes:
+def convert_to_unicode(input_string: str) -> str:
     r"""Take a string in the form of U+XXX and turns it into a unicode_escape encoded string \UXXXXXXXX."""
     ret = ""
     for uni in input_string.replace("U+", "").split(" "):
@@ -114,47 +117,6 @@ def convert_to_unicode(input_string: str) -> bytes:
 
     # Apply Emoji Selector to the end
     ret += r"\U0000FE0F"
-    return ret
-
-    ru8 = ret.encode('utf-8')
-    rue = ret.encode('unicode_escape')
-    rur = ret.encode('raw_unicode_escape')
-
-    sss = "\U0001F600\U0000FE0F"
-    su8 = sss.encode('utf-8')
-    sue = sss.encode('unicode_escape')
-    sur = sss.encode('raw_unicode_escape')
-
-    encoded = ret.encode('utf-8')
-    for encoding1 in ['utf-8', 'unicode_escape', 'raw_unicode_escape']:
-        for encoding2 in ['utf-8', 'unicode_escape', 'raw_unicode_escape']:
-            encoded = ret.encode(encoding1)
-            decoded = encoded.decode(encoding2)
-            print(f"[{encoding1}\tto\t{encoding2}]")
-            print(f"\t{ret}.encode({encoding1}) = {encoded}")
-            print(f"\t{encoded}.decoded({encoding2}) = {decoded}")
-            print(f"\tret.encode({encoding1}).decoded({encoding2})= {decoded}")
-
-
-        # print(f"  ret.encode({'utf8'}) = {ret}\t  []-> ru8: ", ru8.decode(encoding))
-        # print(f"  ret: {ret} []-> rue: ", rue.decode(encoding))
-        # print(f"  ret: {ret} []-> rur: ", rur.decode(encoding))
-        # print(f"  sss: {sss} []-> su8: ", su8.decode(encoding))
-        # print(f"  sss: {sss} []-> sue: ", sue.decode(encoding))
-        # print(f"  sss: {sss} []-> sur: ", sur.decode(encoding))
-
-    exit(0)
-    #
-    #
-    # print("\U0001F600\U0000FE0F".encode('utf-8'))
-    #
-    #
-    #
-    # print("RET", rf"{ret}")
-    # print(ret.encode('utf-8').decode())
-    # print("\U0001F600")
-    # print("\U0001F600\U0000FE0F")
-    # exit(0)
     return ret
 
 
@@ -167,7 +129,7 @@ def my_super_copy(what: str, where: str) -> None:
         shutil.copy(what, where)
 
 
-def build_headers(cols) -> dict:
+def build_headers(cols: list) -> dict:
     """Extacts a mapping of column number to name -- hopefully to help future proof this script."""
     headers = {}
 
@@ -177,32 +139,28 @@ def build_headers(cols) -> dict:
     return headers
 
 
-def parse_html_file(csv, file_name: str, message) -> None:
+def parse_html_file(csv: TextIO, file_name: str, message: str) -> None:
     """Parse html files."""
     # Print / write the output as needed
-    def print_result(print_name: str):
-        """Prints out the result for CSV file I think"""
-
+    def print_result(print_name: str) -> None:
+        """Print the result to a CSV file."""
         output = "\t".join(
             [
                 str(number) + ".png",
                 print_name,
-                code.encode('utf8').decode('unicode_escape'),
+                code.encode("utf8").decode("unicode_escape"),
                 code,
                 raw_code_string,
                 keywords,
             ]
         )
         csv.write(output + "\n")
-        # csv.write(output.encode("unicode_escape") + "\n")
 
     html = open(file_name, "rb").read()
 
     # if not test_mode:
     notify(title="Emoji Taco", text=message, sound=None)
     soup = BeautifulSoup(html, "html.parser")
-    # else:
-    #     soup = BeautifulSoup(html)
 
     tables = soup.findAll("table")
 
@@ -223,7 +181,7 @@ def parse_html_file(csv, file_name: str, message) -> None:
         rows = table.findAll("tr")
 
         for tr in rows:
-            cols = tr.findAll(["th", "td"])
+            cols: list = tr.findAll(["th", "td"])
 
             if not headers:
                 headers = build_headers(cols)
@@ -240,7 +198,7 @@ def parse_html_file(csv, file_name: str, message) -> None:
 
             # Extract the raw unicode string - basically turn it into something python can print
             # raw_code_string = str(cols[1].text)
-            raw_code_string = str(cols[headers["Code"]].text)
+            raw_code_string: str = str(cols[headers["Code"]].text)
 
             if raw_code_string == "Code":
                 # Skip header lines
@@ -266,13 +224,13 @@ def parse_html_file(csv, file_name: str, message) -> None:
                 continue
 
             # The number
-            number = int(cols[headers["№"]].text)
+            number: int = int(cols[headers["№"]].text)
 
             # Zero out alias and name
             alias = None
-            name = None
+            name: str  # Used to be defaulted to none
 
-            keywords = (
+            keywords: str = (
                 cols[headers["CLDR Short Name"]]
                 .text.replace("|", "")
                 .replace("  ", " ")
@@ -311,10 +269,11 @@ def parse_html_file(csv, file_name: str, message) -> None:
 
                 # Split on comma
                 names = names[0].split(", ")
-                name: str = alias_dict.get(names[0], names[0])
+                name = alias_dict.get(names[0], names[0])
                 if len(names) > 1:
                     name += " "
                     name += names[1]
+
             else:
                 name = names[0]
 

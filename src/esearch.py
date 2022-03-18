@@ -1,18 +1,21 @@
 """Emoji Search."""
+from __future__ import annotations
 
 import os
 import sys
-import urllib
+from urllib.parse import quote
 
 from workflow import Workflow3
+
+base_path = os.path.dirname(os.path.realpath(__file__))
 
 name_match = []
 keyword_match = []
 
 
-def main(wf: Workflow3):
+def main(wf: Workflow3) -> None:
     """Define Main function."""
-    if os.path.isfile("../emoji.tab"):
+    if os.path.isfile(f"{base_path}/../emoji.tab"):
         pass
     else:
         wf.add_item(
@@ -25,11 +28,11 @@ def main(wf: Workflow3):
         exit()
 
     try:
-        query = [str(arg) for arg in wf.args[0:]]
+        query: str | list[str] = [str(arg) for arg in wf.args[0:]]
     except:
         query = ""
 
-    with open("../emoji.tab") as f:
+    with open(f"{base_path}/../emoji.tab") as f:
         for idx, line in enumerate(f, 1):
             split_list = line.strip().split("\t")
             if len(split_list) != 6:
@@ -58,11 +61,12 @@ def main(wf: Workflow3):
             elif in_keywords:
                 keyword_match.append([img, name, raw_code, keywords])
 
-    imgbase = "file://" + urllib.quote(os.getcwd()) + "/img/"
+    imgbase = "file://" + quote(base_path) + "/../img/"
 
     if len(name_match + keyword_match) == 0:
+        sad_face = "\U0001F622\U0000FE0F"
         wf.add_item(
-            "\\U0001F622\\U0000FE0F" + " No Emoji found",
+            sad_face + " No Emoji found",
             "Please try again",
             icon="icon.png",
         )
@@ -84,12 +88,12 @@ def main(wf: Workflow3):
             subtitle=subtitle.replace("  ", " "),
             icon="img/" + img,
             quicklookurl=ql,
-            arg=raw_code.decode("unicode_escape"),
+            arg=raw_code,
             valid=True,
         )
 
-        p_string = raw_code.replace("\\", "\\\\")
-        pd_string = '"' + p_string + "\".decode('unicode_escape')"
+        p_string = raw_code
+        pd_string = 'u"' + raw_code + '"'
 
         item.add_modifier(
             "cmd", subtitle="Python String [" + p_string + "]", arg=p_string, valid=None
