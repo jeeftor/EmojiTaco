@@ -31,7 +31,6 @@ import sys
 import tarfile
 import tempfile
 import uuid
-from typing import List
 
 from . import workflow
 
@@ -208,7 +207,8 @@ def notify(title="", text="", sound=None):
     return False
 
 
-def usr_bin_env(*args: str) -> list[str]:
+def usr_bin_env(*args: str):
+    print("HI")
     return ["/usr/bin/env", f'PATH={os.environ["PATH"]}'] + list(args)
 
 

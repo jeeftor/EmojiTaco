@@ -74,6 +74,7 @@ def _process_exists(pid):
 
     """
     try:
+        _log().warn("Killing PID: %s", str(pid))
         os.kill(pid, 0)
     except OSError:  # not running
         return False
@@ -90,6 +91,7 @@ def _job_pid(name):
         int: PID of job process (or `None` if job doesn't exist).
     """
     pidfile = _pid_file(name)
+    _log().warn("PID Filename: %s", pidfile)
     if not os.path.exists(pidfile):
         return
 
@@ -99,6 +101,7 @@ def _job_pid(name):
         pid = int.from_bytes(read, sys.byteorder)
         print(pid)
 
+        return pid
         if _process_exists(pid):
             return pid
 
@@ -114,6 +117,8 @@ def is_running(name):
     :rtype: bool
 
     """
+    _log().warn("is_running -- Checking for name: %s", name)
+
     if _job_pid(name) is not None:
         return True
 
@@ -121,7 +126,8 @@ def is_running(name):
 
 
 def _background(
-    pidfile, stdin="/dev/null", stdout="/dev/null", stderr="/dev/null"
+    # pidfile, stdin="/dev/null", stdout="/dev/null", stderr="/dev/null"
+    pidfile, stdin="/dev/null", stdout="/tmp/out.txt", stderr="/tmp/err.txt"
 ):  # pragma: no cover
     """Fork the current process into a background daemon.
 
@@ -142,8 +148,10 @@ def _background(
             if pid > 0:
                 if write:  # write PID of child process to `pidfile`
                     tmp = pidfile + ".tmp"
+                    _log().info("Writing PID File: %s", str(tmp))
                     with open(tmp, "wb") as fp:
                         fp.write(pid.to_bytes(4, sys.byteorder))
+                    _log().info("Renameing PID File: %s", str(pidfile))
                     os.rename(tmp, pidfile)
                 if wait:  # wait for child process to exit
                     os.waitpid(pid, 0)
@@ -187,6 +195,7 @@ def kill(name, sig=signal.SIGTERM):
     Returns:
         bool: `False` if job isn't running, `True` if signal was sent.
     """
+    _log().error("KILLING BG PROCESS")
     pid = _job_pid(name)
     if pid is None:
         return False
@@ -223,9 +232,7 @@ def run_in_background(name, args, **kwargs):
     if is_running(name):
         _log().info("[%s] job already running", name)
         return
-
     argcache = _arg_cache(name)
-
     # Cache arguments
     with open(argcache, "wb") as fp:
         pickle.dump({"args": args, "kwargs": kwargs}, fp)
@@ -234,6 +241,7 @@ def run_in_background(name, args, **kwargs):
     # Call this script
     cmd = [sys.executable, "-m", "workflow.background", name]
     _log().debug("[%s] passing job to background runner: %r", name, cmd)
+    _log().debug("PYTHONPATH=%s", ":".join(sys.path))
     retcode = subprocess.call(cmd, env={"PYTHONPATH": ":".join(sys.path)})
 
     if retcode:  # pragma: no cover
@@ -254,6 +262,7 @@ def main(wf):  # pragma: no cover
     log = wf.logger
     name = wf.args[0]
     argcache = _arg_cache(name)
+    log.info("Arg Cache %s", argcache)
     if not os.path.exists(argcache):
         msg = f"[{name}] command cache not found: {argcache}"
         log.critical(msg)

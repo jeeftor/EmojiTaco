@@ -24,11 +24,13 @@ def main(wf: Workflow3) -> None:
             arg="init emoji",
             valid=True,
         )
+        log.info("Not Initialized")
         wf.send_feedback()
         exit()
 
     try:
         query: str | list[str] = [str(arg) for arg in wf.args[0:]]
+        log.info("Query=%s", query)
     except:
         query = ""
 
@@ -115,5 +117,7 @@ def main(wf: Workflow3) -> None:
 
 
 if __name__ == "__main__":
-    wf = Workflow3(update_settings={"github_slug": "jeeftor/EmojiTaco", "frequency": 7})
+    # wf = Workflow3(update_settings={"github_slug": "jeeftor/EmojiTaco", "frequency": 7})
+    wf=Workflow3()
+    log = wf.logger
     sys.exit(wf.run(main))

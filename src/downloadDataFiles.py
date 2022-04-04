@@ -47,12 +47,14 @@ def string_from_percent(pct: float) -> str | None:
 
 def build_wf_entry(wf: Workflow3) -> None:
     """Build workflow entry."""
+
     if is_running("bg"):
         """Update status"""
         phase = wf.stored_data("phase")
-        log.info("PHASE: ", phase)
+
+        log.info("PHASE: ", str(phase))
         if phase != "done":
-            wf.rerun = 0.5
+            wf.rerun = 1.5
         if phase == "downloading":
             pct = None
             while pct is None:
@@ -64,7 +66,7 @@ def build_wf_entry(wf: Workflow3) -> None:
             progress = wf.stored_data("download_progress")
             file = wf.stored_data("download_file")
 
-            # wf.rerun = 0.5
+            # wf.rerun = 1.5
 
             title = f"Downloading {file} [{progress}]"
             subtitle = string_from_percent(pct) + " " + str(pct) + "%"
@@ -102,7 +104,7 @@ def main(wf: Workflow3) -> None:
 
     if first_time:
 
-        wf.rerun = 0.5
+        wf.rerun = 1.5
         wf.store_data("download_percent", 0)
         wf.store_data("phase", "downloading")
         wf.store_data("emoji_count", 0)

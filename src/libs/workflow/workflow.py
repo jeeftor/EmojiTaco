@@ -1260,7 +1260,7 @@ class Workflow:
         """Alfred 2's default cache directory."""
         return os.path.join(
             os.path.expanduser(
-                "~/Library/Caches/com.runningwithcrayons.Alfred-2/" "Workflow Data/"
+                "~/Library/Caches/com.runningwithcrayons.Alfred/" "Workflow Data/"
             ),
             self.bundleid,
         )

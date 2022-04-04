@@ -12,11 +12,6 @@ from bs4 import BeautifulSoup
 from workflow import Workflow3
 from workflow.notify import notify
 
-RUNWAY_URL = "http://ourairports.com/data/runways.csv"
-AIRPORT_URL = "http://ourairports.com/data/airports.csv"
-FRQ_URL = "http://ourairports.com/data/airport-frequencies.csv"
-NAVAID_URL = "http://ourairports.com/data/navaids.csv"
-
 BETA_EMOJI = "http://unicode.org/emoji/charts-beta/full-emoji-list.html"
 BETA_SKIN = "http://unicode.org/emoji/charts-beta/full-emoji-modifiers.html"
 
@@ -25,6 +20,8 @@ SKIN = "http://unicode.org/emoji/charts/full-emoji-modifiers.html"
 
 
 def main(wf: Workflow3) -> None:
+
+    log.info("Starting BG Task")
     """Define main function."""
     file_count = 0
     wf.store_data("emoji_count", 0)
