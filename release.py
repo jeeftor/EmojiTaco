@@ -2,6 +2,7 @@ import json
 import os
 import sys
 import urllib
+import urllib.request
 
 GITHUB_USER = "jeeftor"
 GITHUB_REPO = "EmojiTaco"
@@ -61,7 +62,7 @@ request_headers["Content-Length"] = clen
 url = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/releases"
 # url = 'https://api.github.com/repos/jeeftor/EmojiTaco/releases'
 print(url)
-req = urllib.request.Request(url, data, headers=request_headers)
+req =  urllib.request.Request(url, data, headers=request_headers)
 f = urllib.request.urlopen(req)
 response = f.read()
 f.close()
