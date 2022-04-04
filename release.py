@@ -1,7 +1,7 @@
 import json
 import os
 import sys
-
+import urllib
 
 GITHUB_USER = "jeeftor"
 GITHUB_REPO = "EmojiTaco"
@@ -61,8 +61,8 @@ request_headers["Content-Length"] = clen
 url = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/releases"
 # url = 'https://api.github.com/repos/jeeftor/EmojiTaco/releases'
 print(url)
-req = urllib2.Request(url, data, headers=request_headers)
-f = urllib2.urlopen(req)
+req = urllib.request(url, data, headers=request_headers)
+f = urllib.urlopen(req)
 response = f.read()
 f.close()
 pp_json(response)
@@ -78,10 +78,10 @@ upload_data = open(upload_path, "rb")
 url = url + f"?name={file_to_upload}"
 
 # Upload the new workflow file
-request = urllib2.Request(url, data=upload_data, headers=request_headers)
+request = urllib.request(url, data=upload_data, headers=request_headers)
 request.add_header("Cache-Control", "no-cache")
 request.add_header("Content-Length", "%d" % upload_data_len)
-res = urllib2.urlopen(request).read().strip()
+res = urllib.urlopen(request).read().strip()
 
 
 # Launch web browser to the Draf release
