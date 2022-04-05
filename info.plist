@@ -265,7 +265,7 @@ PYTHONPATH=$(pwd)/src/libs python3 src/downloadDataFiles.py </string>
 				<key>runningsubtext</key>
 				<string>Debug Menu for Today</string>
 				<key>script</key>
-				<string>python src/magic.py "{query}"
+				<string>PYTHONPATH=$(pwd)/src/libs python3 src/magic.py "{query}"
 </string>
 				<key>scriptargtype</key>
 				<integer>0</integer>

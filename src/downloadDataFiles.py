@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import os
 import sys
-from typing import Any
 
 from workflow import Workflow3
 from workflow.background import is_running, run_in_background
@@ -12,8 +11,8 @@ from workflow.background import is_running, run_in_background
 def string_from_percent(pct: float) -> str | None:
     """Return a fancy string to show in the workflow from the count item."""
     # blue = "\\U0001F535\\U0000FE0F"
-    white = "\\U000026AA\\U0000FE0F"
-    black = "\\U000026AB\\U0000FE0F"
+    white = u"\U000026AA\U0000FE0F"
+    black = u"\U000026AB\U0000FE0F"
 
     ret: str = (
         white
@@ -41,20 +40,17 @@ def string_from_percent(pct: float) -> str | None:
 
     mod = 2 * (10 - (int(pct / 10) % 10))
 
-    # encoding = 'UTF-8'
-    return ret.decode("unicode_escape")[mod:][0:20]
+    return ret[mod:][0:20]
 
 
 def build_wf_entry(wf: Workflow3) -> None:
     """Build workflow entry."""
-
-    if is_running("bg"):
+    if is_running("emoji_init"):
         """Update status"""
-        phase = wf.stored_data("phase")
-
-        log.info("PHASE: ", str(phase))
+        phase : str = wf.stored_data("phase")
+        log.info("--dbg:\tIs Running with phase [%s]", phase)
         if phase != "done":
-            wf.rerun = 1.5
+            wf.rerun = 0.5
         if phase == "downloading":
             pct = None
             while pct is None:
@@ -66,8 +62,6 @@ def build_wf_entry(wf: Workflow3) -> None:
             progress = wf.stored_data("download_progress")
             file = wf.stored_data("download_file")
 
-            # wf.rerun = 1.5
-
             title = f"Downloading {file} [{progress}]"
             subtitle = string_from_percent(pct) + " " + str(pct) + "%"
             wf.add_item(title, subtitle=subtitle)
@@ -77,7 +71,8 @@ def build_wf_entry(wf: Workflow3) -> None:
             try:
                 emoji_count = wf.stored_data("emoji_count")
                 subtitle = f"Parsed {emoji_count} emoji"
-            except:
+            except Exception as e:
+                print(type(e),type(e),type(e),type(e),type(e),type(e),type(e))
                 subtitle = "Parsed ... emoji"
                 pass
 
@@ -95,24 +90,29 @@ def build_wf_entry(wf: Workflow3) -> None:
 
 def main(wf: Workflow3) -> None:
     """Define Main function."""
+
+    log.debug("--dbg:\tmain Function")
+
     try:
         count = int(os.environ["count"])
         first_time = False
-    except:
+    except KeyError:
         count = 0
         first_time = True
 
-    if first_time:
+    if is_running("emoji_init"):
+        first_time = False
 
-        wf.rerun = 1.5
+    if first_time:
+        wf.rerun = 0.5
         wf.store_data("download_percent", 0)
         wf.store_data("phase", "downloading")
         wf.store_data("emoji_count", 0)
         wf.add_item("Starting background process")
         run_in_background(
-            "bg", ["/usr/bin/python3", wf.workflowfile("src/bg_downloader.py")]
+            "emoji_init", ["/usr/bin/python3", wf.workflowfile("src/bg_downloader.py")]
         )
-
+        log.debug("Launching backgorund task")
     else:
         build_wf_entry(wf)
 
@@ -124,4 +124,6 @@ def main(wf: Workflow3) -> None:
 if __name__ == "__main__":
     wf = Workflow3()
     log = wf.logger
+    log.info("Emoji Init Started")
     sys.exit(wf.run(main))
+

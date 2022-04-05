@@ -1,5 +1,8 @@
 """I have the magic touch."""
-from workflow import ICON_INFO, Workflow3
+from __future__ import annotations
+
+from workflow import ICON_INFO
+from workflow import Workflow3
 
 
 def main(wf: Workflow3) -> None:

@@ -1,20 +1,27 @@
-[![Donate via PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg?style=flat-square)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=J4ECF77LB2BCE&currency_code=USD&source=url)
-
-[![Become a Patron!](https://img.shields.io/badge/Patreon-Become%20a%20Patron!-orange.svg?style=flat-square)](https://www.patreon.com/fvcproductions)
-
-
 
 [![Build Status](https://travis-ci.org/jeeftor/EmojiTaco.svg?branch=master)](https://travis-ci.org/jeeftor/EmojiTaco)
 
-# Emoji Taco 🌮
+<a href="https://www.buymeacoffee.com/jeef"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a taco&emoji=🌮&slug=jeef&button_colour=FFDD00&font_colour=000000&font_family=Comic&outline_colour=000000&coffee_colour=ffffff" /></a>
+
+
+# Emoji Taco 🌮 (for python3)
 
 [**Download the latest release**](https://github.com/jeeftor/EmojiTaco/releases)
+
+
+## Python 3 Notes
+
+* Notifications aren't currently working that I'm aware of - but this doesnt really impact users at all
+* Code-base *might* be smaller than Python2 version
+* Assumes you have a `python3` executable available
+
+
 
 ### Unicode website
 
 If you run in to trouble its possible the unicode website is down. You can check [here](https://downfor.io/unicode.org). _This was an issue 9/10 April 2020_
 
-
+<!--
 ## Catalina Notes
 
 - _As of latest version this section may not be needed - I no longer use `lxml`_
@@ -28,7 +35,7 @@ On catalina you may get an error like this:
 Open **Security & Privacy** settings and
 ![docs/catalina2.png](docs/catalina2.png)
 select the **Always Allow** button
-
+-->
 ## About
 This emoji workflow scrapes Unicode.org to pull down the latest set of EMOJI!!.  On first run you **must** be connected to the Internet so that you can generate the initial Emoji set.  As new emoji are released you should be able to re-generate to keep the plugin up to date.
 
