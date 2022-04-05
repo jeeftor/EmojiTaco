@@ -86,16 +86,20 @@ def main(wf: Workflow3) -> None:
         ql = imgbase + img
 
         item = wf.add_item(
-            title,
+            f"{title}",
             subtitle=subtitle.replace("  ", " "),
             icon="img/" + img,
             quicklookurl=ql,
-            arg=raw_code,
+            arg=f"{raw_code.encode('utf-8').decode('unicode_escape')}", # This is not raw code any more
             valid=True,
         )
 
+
         p_string = raw_code
         pd_string = 'u"' + raw_code + '"'
+
+        log.info(p_string)
+        log.info(pd_string)
 
         item.add_modifier(
             "cmd", subtitle="Python String [" + p_string + "]", arg=p_string, valid=None
