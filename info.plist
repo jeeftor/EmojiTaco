@@ -380,7 +380,7 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 		<key>22DEF54C-B689-4E7A-9C9C-1D73DC17BC80</key>
 		<dict>
 			<key>note</key>
-			<string>copy emoji to clipboard and paste into open applicaiton</string>
+			<string>copy emoji to clipboard and paste into open application</string>
 			<key>xpos</key>
 			<integer>410</integer>
 			<key>ypos</key>

@@ -50,4 +50,4 @@ def test_download(travis = None):
     else:
         r = web.get(url1, timeout=6000)
 
-        print r.status_code
+        print (r.status_code)

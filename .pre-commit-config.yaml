@@ -6,13 +6,21 @@ repos:
     rev: v4.1.0
     hooks:
       - id: trailing-whitespace
+        exclude: src/libs|build
       - id: end-of-file-fixer
+        exclude: src/libs|build
       - id: check-yaml
+        exclude: src/libs|build
       - id: check-added-large-files
+        exclude: src/libs|build
       - id: check-ast
+        exclude: src/libs|build
       - id: check-builtin-literals
+        exclude: src/libs|build
       - id: check-docstring-first
+        exclude: src/libs|build
       - id: debug-statements
+        exclude: src/libs|build
   - repo: 'https://github.com/codespell-project/codespell'
     rev: v2.1.0
     hooks:
@@ -25,14 +33,14 @@ repos:
         exclude_types:
           - csv
           - json
-        exclude: ^tests/fixtures/|src/libs
+        exclude: ^tests/fixtures/|src/libs|build
   - repo: 'https://github.com/asottile/pyupgrade'
     rev: v2.31.1
     hooks:
       - id: pyupgrade
         args:
           - '--py39-plus'
-        exclude: src/libs
+        exclude: src/libs|build
   - repo: 'https://github.com/PyCQA/isort'
     rev: 5.10.1
     hooks:
@@ -41,12 +49,12 @@ repos:
           - '--profile'
           - black
           - '--filter-files'
-        exclude: src/libs
+        exclude: src/libs|build
   - repo: 'https://github.com/psf/black'
     rev: 22.1.0
     hooks:
       - id: black
-        exclude: src/libs
+        exclude: src/libs|build
   - repo: 'https://github.com/PyCQA/flake8'
     rev: 4.0.1
     hooks:
@@ -58,7 +66,7 @@ repos:
           - flake8-comprehensions
           - flake8-noqa
           - mccabe
-        exclude: src/libs
+        exclude: src/libs|build
   - repo: 'https://github.com/pre-commit/mirrors-mypy'
     rev: v0.941
     hooks:
@@ -68,6 +76,7 @@ repos:
         additional_dependencies:
           - types-requests
           - pydantic
+        exclude: src/libs|build
   - repo: 'https://github.com/Lucas-C/pre-commit-hooks-nodejs'
     rev: v1.1.1
     hooks:
@@ -82,7 +91,7 @@ repos:
       - id: check-executables-have-shebangs
         stages: [manual]
       - id: check-json
-        exclude: (.vscode|.devcontainer|src/libs)
+        exclude: (.vscode|.devcontainer|src/libs|build)
   - repo: 'https://github.com/adrienverge/yamllint.git'
     rev: v1.26.3
     hooks:
@@ -92,4 +101,4 @@ repos:
     hooks:
       - id: prettier
         stages: [manual]
-        exclude: src/libs
+        exclude: src/libs|build

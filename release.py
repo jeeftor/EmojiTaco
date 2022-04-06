@@ -1,3 +1,4 @@
+"""Make a github release."""
 import json
 import os
 import sys
@@ -55,7 +56,7 @@ payload = {
 }
 
 
-# Make a new reelease
+# Make a new release
 data = json.dumps(payload)
 clen = len(data)
 request_headers["Content-Length"] = clen

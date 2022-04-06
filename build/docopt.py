@@ -506,7 +506,7 @@ def docopt(doc, argv=None, help=True, version=None, options_first=False):
         If passed, the object will be printed if --version is in
         `argv`.
     options_first : bool (default: False)
-        Set to True to require options preceed positional arguments,
+        Set to True to require options proceed positional arguments,
         i.e. to forbid options and positional arguments intermix.
 
     Returns

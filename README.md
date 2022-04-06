@@ -10,7 +10,7 @@
 
 ## Python 3 Notes
 
-* Notifications aren't currently working that I'm aware of - but this doesnt really impact users at all
+* Notifications aren't currently working that I'm aware of - but this doesn't really impact users at all
 * Code-base *might* be smaller than Python2 version
 * Assumes you have a `python3` executable available
 

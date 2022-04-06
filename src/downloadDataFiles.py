@@ -46,7 +46,7 @@ def string_from_percent(pct: float) -> str | None:
 def build_wf_entry(wf: Workflow3) -> None:
     """Build workflow entry."""
     if is_running("emoji_init"):
-        """Update status"""
+        """Update status."""
         phase : str = wf.stored_data("phase")
         log.info("--dbg:\tIs Running with phase [%s]", phase)
         if phase != "done":
@@ -72,7 +72,6 @@ def build_wf_entry(wf: Workflow3) -> None:
                 emoji_count = wf.stored_data("emoji_count")
                 subtitle = f"Parsed {emoji_count} emoji"
             except Exception as e:
-                print(type(e),type(e),type(e),type(e),type(e),type(e),type(e))
                 subtitle = "Parsed ... emoji"
                 pass
 
@@ -112,7 +111,7 @@ def main(wf: Workflow3) -> None:
         run_in_background(
             "emoji_init", ["/usr/bin/python3", wf.workflowfile("src/bg_downloader.py")]
         )
-        log.debug("Launching backgorund task")
+        log.debug("Launching background task")
     else:
         build_wf_entry(wf)
 
