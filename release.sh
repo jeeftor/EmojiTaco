@@ -35,5 +35,3 @@ then
     echo ""
     python release.py ${TEXT_ARRRAY[2]} ${TEXT_ARRRAY[1]}
 fi
-
-

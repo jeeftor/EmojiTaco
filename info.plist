@@ -86,6 +86,8 @@
 				<true/>
 				<key>clipboardtext</key>
 				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
 				<key>transient</key>
 				<true/>
 			</dict>
@@ -145,7 +147,7 @@
 				<key>script</key>
 				<string>query=$1
 
-python esearch.py $query</string>
+PYTHONPATH=$(pwd)/src/libs python3 src/esearch.py $query</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -213,8 +215,8 @@ python esearch.py $query</string>
 				<key>runningsubtext</key>
 				<string></string>
 				<key>script</key>
-				<string>find . -name '*.so' | xargs xattr -d -r com.apple.quarantine
-python src/downloadDataFiles.py </string>
+				<string>
+PYTHONPATH=$(pwd)/src/libs python3 src/downloadDataFiles.py </string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -263,7 +265,7 @@ python src/downloadDataFiles.py </string>
 				<key>runningsubtext</key>
 				<string>Debug Menu for Today</string>
 				<key>script</key>
-				<string>python src/magic.py "{query}"
+				<string>PYTHONPATH=$(pwd)/src/libs python3 src/magic.py "{query}"
 </string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
@@ -292,6 +294,8 @@ python src/downloadDataFiles.py </string>
 				<false/>
 				<key>clipboardtext</key>
 				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
 				<key>transient</key>
 				<false/>
 			</dict>
@@ -302,11 +306,60 @@ python src/downloadDataFiles.py </string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>etest</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>/usr/local/bin/gcat $(pwd)/src/example.json</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A18FF310-5308-45FA-8AF6-F23043CB088A</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>This Emoji workflow was built because there were ZERO taco emoji workflows out there.
 
-use `e` to search for emoji. 
+use `e` to search for emoji.
 
 If you want you can customize this value under the workflow values.
 
@@ -327,7 +380,7 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 		<key>22DEF54C-B689-4E7A-9C9C-1D73DC17BC80</key>
 		<dict>
 			<key>note</key>
-			<string>copy emoji to clipboard and paste into open applicaiton</string>
+			<string>copy emoji to clipboard and paste into open application</string>
 			<key>xpos</key>
 			<integer>410</integer>
 			<key>ypos</key>
@@ -356,6 +409,13 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 			<key>ypos</key>
 			<integer>240</integer>
 		</dict>
+		<key>A18FF310-5308-45FA-8AF6-F23043CB088A</key>
+		<dict>
+			<key>xpos</key>
+			<integer>430</integer>
+			<key>ypos</key>
+			<integer>605</integer>
+		</dict>
 		<key>CCA9AA93-4819-4300-A6F2-DF376B00B121</key>
 		<dict>
 			<key>xpos</key>
@@ -376,8 +436,10 @@ This plug tries to load all Emoji from Unicode.  It will return Emoji that may n
 		<key>keyword</key>
 		<string>e</string>
 	</dict>
+	<key>variablesdontexport</key>
+	<array/>
 	<key>version</key>
-	<string>1.2.4</string>
+	<string>2.0.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/jeeftor/EmojiTaco</string>
 </dict>

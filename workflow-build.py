@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# encoding: utf-8
 #
 # Copyright (c) 2013 deanishe@deanishe.net.
 #
@@ -36,48 +35,45 @@ Options:
 
 """
 
-from __future__ import print_function
 
-import sys
-import os
 import logging
 import logging.handlers
+import os
 import plistlib
+import sys
+from subprocess import CalledProcessError, check_call
+
 import semantic_version
-
-from subprocess import check_call, CalledProcessError
-
 from docopt import docopt
 
 __version__ = "0.2"
 __author__ = "deanishe@deanishe.net"
 
 DEFAULT_LOG_LEVEL = logging.WARNING
-LOGPATH = os.path.expanduser('~/Library/Logs/MyScripts.log')
+LOGPATH = os.path.expanduser("~/Library/Logs/MyScripts.log")
 LOGSIZE = 1024 * 1024 * 5  # 5 megabytes
 
 
-
 EXCLUDE_PATTERNS = [
-    '*.pyc',
-    '*.log',
-    '.DS_Store',
-    '*.acorn',
-    '*.swp',
-    '*.sublime-project',
-    '*.sublime-workflow',
-    '*.git',
-    '*.dist-info',
-    '*.idea',
-    '.idea',
-    '.git',
-    './eenv/*',
-    './img/*.png',
-    '.*.html',
-    '.*.htm',
-    '.*.tab',
-    '*.csv',
-    '*.alfredworkflow'
+    "*.pyc",
+    "*.log",
+    ".DS_Store",
+    "*.acorn",
+    "*.swp",
+    "*.sublime-project",
+    "*.sublime-workflow",
+    "*.git",
+    "*.dist-info",
+    "*.idea",
+    ".idea",
+    ".git",
+    "./eenv/*",
+    "./img/*.png",
+    ".*.html",
+    ".*.htm",
+    ".*.tab",
+    "*.csv",
+    "*.alfredworkflow",
 ]
 
 
@@ -96,11 +92,11 @@ class TechnicolorFormatter(logging.Formatter):
     BOLD = "\033[1m"
 
     LEVEL_COLOURS = {
-        logging.DEBUG:    BLUE,
-        logging.INFO:     WHITE,
-        logging.WARNING:  YELLOW,
-        logging.ERROR:    MAGENTA,
-        logging.CRITICAL: RED
+        logging.DEBUG: BLUE,
+        logging.INFO: WHITE,
+        logging.WARNING: YELLOW,
+        logging.ERROR: MAGENTA,
+        logging.CRITICAL: RED,
     }
 
     def __init__(self, fmt=None, datefmt=None, technicolor=True):
@@ -115,11 +111,10 @@ class TechnicolorFormatter(logging.Formatter):
         if self.technicolor and self._isatty:
             colour = self.LEVEL_COLOURS[record.levelno]
             bold = (False, True)[record.levelno > logging.INFO]
-            levelname = self.colourise('{:9s}'.format(record.levelname),
-                                       colour, bold)
+            levelname = self.colourise(f"{record.levelname:9s}", colour, bold)
         else:
-            levelname = '{:9s}'.format(record.levelname)
-        return (levelname + logging.Formatter.format(self, record))
+            levelname = f"{record.levelname:9s}"
+        return levelname + logging.Formatter.format(self, record)
 
     def colourise(self, text, colour, bold=False):
         colour = self.COLOUR_BASE.format(colour + 30)
@@ -129,33 +124,32 @@ class TechnicolorFormatter(logging.Formatter):
         output.append(colour)
         output.append(text)
         output.append(self.RESET)
-        return ''.join(output)
+        return "".join(output)
 
 
 # logfile
-logfile = logging.handlers.RotatingFileHandler(LOGPATH, maxBytes=LOGSIZE,
-                                               backupCount=5)
+logfile = logging.handlers.RotatingFileHandler(LOGPATH, maxBytes=LOGSIZE, backupCount=5)
 formatter = logging.Formatter(
-    '%(asctime)s %(levelname)-8s [%(name)-12s] %(message)s',
-    datefmt="%d/%m %H:%M:%S")
+    "%(asctime)s %(levelname)-8s [%(name)-12s] %(message)s", datefmt="%d/%m %H:%M:%S"
+)
 logfile.setFormatter(formatter)
 logfile.setLevel(logging.DEBUG)
 
 # console output
 console = logging.StreamHandler()
-formatter = TechnicolorFormatter('%(message)s')
+formatter = TechnicolorFormatter("%(message)s")
 console.setFormatter(formatter)
 console.setLevel(logging.DEBUG)
 
-log = logging.getLogger('')
+log = logging.getLogger("")
 log.addHandler(logfile)
 log.addHandler(console)
 
 
 def safename(name):
     """Make name filesystem-safe."""
-    name = name.replace(u'/', u'-')
-    name = name.replace(u':', u'-')
+    name = name.replace("/", "-")
+    name = name.replace(":", "-")
     return name
 
 
@@ -164,70 +158,69 @@ def build_workflow(workflow_dir, outputdir, overwrite=False, verbose=False):
     curdir = os.curdir
     os.chdir(workflow_dir)
     version = None
-    if not os.path.exists(u'info.plist'):
-        log.error(u'info.plist not found')
+    if not os.path.exists("info.plist"):
+        log.error("info.plist not found")
         return False
 
-    if os.path.exists(u'version'):
-        
-        #Read version
-        with open('version') as fp:            
-            initial_version = semantic_version.Version.coerce(fp.read().strip().decode('utf-8'))
+    if os.path.exists("version"):
+
+        # Read version
+        with open("version") as fp:
+            initial_version = semantic_version.Version.coerce(
+                fp.read().strip().decode("utf-8")
+            )
             fp.close()
             version = str(initial_version.next_patch())
 
-            target = open('version', 'w')
+            target = open("version", "w")
             target.truncate()
             target.write(version)
             target.close()
-            
 
     if not version:
-        pl = plistlib.readPlist(u'info.plist')
-        initial_version = semantic_version.Version.coerce(pl[u'version'])
+        pl = plistlib.readPlist("info.plist")
+        initial_version = semantic_version.Version.coerce(pl["version"])
         version = str(initial_version.next_patch())
-        
-        pl[u'version'] = version
-        plistlib.writePlist(pl, u'info.plist')
 
+        pl["version"] = version
+        plistlib.writePlist(pl, "info.plist")
 
-    name = safename(plistlib.readPlist(u'info.plist')[u'name']).replace(" ","_")
+    name = safename(plistlib.readPlist("info.plist")["name"]).replace(" ", "_")
     zippath = os.path.join(outputdir, name)
 
     if version:
-        zippath += u'-' + version
-    zippath += u'.alfredworkflow'
+        zippath += "-" + version
+    zippath += ".alfredworkflow"
 
     if os.path.exists(zippath):
         if overwrite:
-            log.info(u'Overwriting existing workflow')
+            log.info("Overwriting existing workflow")
             os.unlink(zippath)
         else:
-            log.error(u"File '{}' already exists. Use -f to overwrite".format(
-                      zippath))
+            log.error(f"File '{zippath}' already exists. Use -f to overwrite")
             return False
 
     # build workflow
-    command = [u'zip']
+    command = ["zip"]
     if not verbose:
-        command.append(u'-q')
+        command.append("-q")
     command.append(zippath)
-    for root, dirnames, filenames in os.walk(u'.'):
-        dirnames[:] = [d for d in dirnames if not d in ['.git','.idea']]
+    for root, dirnames, filenames in os.walk("."):
+        dirnames[:] = [d for d in dirnames if not d in [".git", ".idea"]]
         for filename in filenames:
             path = os.path.join(root, filename)
             command.append(path)
-    command.append(u'-x')
+    command.append("-x")
     command.extend(EXCLUDE_PATTERNS)
-    log.debug(u'command : {}'.format(u' '.join(command)))
+    log.debug("command : {}".format(" ".join(command)))
     try:
         check_call(command)
     except CalledProcessError as err:
-        log.error(u'zip returned : {}'.format(err.returncode))
+        log.error(f"zip returned : {err.returncode}")
         os.chdir(curdir)
         return False
-    log.info(u'Wrote {}'.format(zippath))
-    #Return workflow filename and actual filename
+    log.info(f"Wrote {zippath}")
+    # Return workflow filename and actual filename
     print(name, os.path.basename(zippath), version)
     os.chdir(curdir)
     return True
@@ -237,25 +230,23 @@ def main(args=None):
     """Run CLI."""
     args = docopt(__doc__, version=__version__)
 
-    if args.get('--verbose'):
+    if args.get("--verbose"):
         log.setLevel(logging.INFO)
-    elif args.get('--quiet'):
+    elif args.get("--quiet"):
         log.setLevel(logging.ERROR)
-    elif args.get('--debug'):
+    elif args.get("--debug"):
         log.setLevel(logging.DEBUG)
     else:
         log.setLevel(DEFAULT_LOG_LEVEL)
 
-    log.debug("Set log level to %s" %
-              logging.getLevelName(log.level))
+    log.debug("Set log level to %s" % logging.getLevelName(log.level))
 
-    log.debug('args :\n{}'.format(args))
+    log.debug(f"args :\n{args}")
 
     # Build options
-    outputdir = os.path.abspath(args.get(u'--output') or os.curdir)
-    workflow_dirs = [os.path.abspath(p) for p in args.get(u'<workflow-dir>')]
-    log.debug(u'outputdir : {}, workflow_dirs : {}'.format(outputdir,
-                                                           workflow_dirs))
+    outputdir = os.path.abspath(args.get("--output") or os.curdir)
+    workflow_dirs = [os.path.abspath(p) for p in args.get("<workflow-dir>")]
+    log.debug(f"outputdir : {outputdir}, workflow_dirs : {workflow_dirs}")
     errors = False
     verbose = False
     if log.level == logging.DEBUG:
@@ -263,13 +254,13 @@ def main(args=None):
 
     # Build workflow(s)
     for path in workflow_dirs:
-        ok = build_workflow(path, outputdir, args.get(u'--force'), verbose)
+        ok = build_workflow(path, outputdir, args.get("--force"), verbose)
         if not ok:
             errors = True
-    if errors:        
+    if errors:
         return 1
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))
