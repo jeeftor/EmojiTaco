@@ -1,4 +1,5 @@
 [flake8]
 per-file-ignores =
     src/*.py: E501,E722
+    *.py: E501
     intellifire4py/__init__.py: F401,

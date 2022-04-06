@@ -5,7 +5,6 @@ import base64
 import os
 import shutil
 import sys
-import time
 from typing import TextIO
 from urllib.request import urlopen
 
@@ -21,7 +20,7 @@ SKIN = "http://unicode.org/emoji/charts/full-emoji-modifiers.html"
 
 
 def main(wf: Workflow3) -> None:
-
+    """Define main function."""
     log.info("Starting BG Task")
     """Define main function."""
     file_count = 0

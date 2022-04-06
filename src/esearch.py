@@ -90,10 +90,9 @@ def main(wf: Workflow3) -> None:
             subtitle=subtitle.replace("  ", " "),
             icon="img/" + img,
             quicklookurl=ql,
-            arg=f"{raw_code.encode('utf-8').decode('unicode_escape')}", # This is not raw code any more
+            arg=f"{raw_code.encode('utf-8').decode('unicode_escape')}",  # This is not raw code any more
             valid=True,
         )
-
 
         p_string = raw_code
         pd_string = 'u"' + raw_code + '"'
@@ -122,6 +121,6 @@ def main(wf: Workflow3) -> None:
 
 if __name__ == "__main__":
     # wf = Workflow3(update_settings={"github_slug": "jeeftor/EmojiTaco", "frequency": 7})
-    wf=Workflow3()
+    wf = Workflow3()
     log = wf.logger
     sys.exit(wf.run(main))

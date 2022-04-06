@@ -47,7 +47,7 @@ def build_wf_entry(wf: Workflow3) -> None:
     """Build workflow entry."""
     if is_running("emoji_init"):
         """Update status."""
-        phase : str = wf.stored_data("phase")
+        phase: str = wf.stored_data("phase")
         log.info("--dbg:\tIs Running with phase [%s]", phase)
         if phase != "done":
             wf.rerun = 0.5
@@ -71,7 +71,7 @@ def build_wf_entry(wf: Workflow3) -> None:
             try:
                 emoji_count = wf.stored_data("emoji_count")
                 subtitle = f"Parsed {emoji_count} emoji"
-            except Exception as e:
+            except Exception:
                 subtitle = "Parsed ... emoji"
                 pass
 
@@ -89,7 +89,6 @@ def build_wf_entry(wf: Workflow3) -> None:
 
 def main(wf: Workflow3) -> None:
     """Define Main function."""
-
     log.debug("--dbg:\tmain Function")
 
     try:
