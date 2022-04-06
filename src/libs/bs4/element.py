@@ -70,13 +70,13 @@ PYTHON_SPECIFIC_ENCODINGS = set([
     "string-escape",
     "string_escape",
 ])
-    
+
 
 class NamespacedAttribute(str):
     """A namespaced string (e.g. 'xml:lang') that remembers the namespace
     ('xml') and the name ('lang') that were used to create it.
     """
-    
+
     def __new__(cls, prefix, name=None, namespace=None):
         if not name:
             # This is the default namespace. Its name "has no value"
@@ -147,14 +147,14 @@ class ContentMetaAttributeValue(AttributeValueWithCharsetSubstitution):
             return match.group(1) + encoding
         return self.CHARSET_RE.sub(rewrite, self.original_value)
 
-    
+
 class PageElement(object):
     """Contains the navigational information for some part of the page:
     that is, its current location in the parse tree.
 
     NavigableString, Tag, etc. are all subclasses of PageElement.
     """
-   
+
     def setup(self, parent=None, previous_element=None, next_element=None,
               previous_sibling=None, next_sibling=None):
         """Sets up the initial relations between this element and
@@ -164,7 +164,7 @@ class PageElement(object):
 
         :param previous_element: The element parsed immediately before
             this one.
-        
+
         :param next_element: The element parsed immediately before
             this one.
 
@@ -258,11 +258,11 @@ class PageElement(object):
     default = object()
     def _all_strings(self, strip=False, types=default):
         """Yield all strings of certain classes, possibly stripping them.
-        
+
         This is implemented differently in Tag and NavigableString.
         """
         raise NotImplementedError()
-   
+
     @property
     def stripped_strings(self):
         """Yield all strings in this PageElement, stripping them first.
@@ -295,11 +295,11 @@ class PageElement(object):
                     strip, types=types)])
     getText = get_text
     text = property(get_text)
-    
+
     def replace_with(self, *args):
-        """Replace this PageElement with one or more PageElements, keeping the 
+        """Replace this PageElement with one or more PageElements, keeping the
         rest of the tree the same.
-        
+
         :param args: One or more PageElements.
         :return: `self`, no longer part of the tree.
         """
@@ -411,7 +411,7 @@ class PageElement(object):
         This works the same way as `list.insert`.
 
         :param position: The numeric position that should be occupied
-           in `self.children` by the new PageElement. 
+           in `self.children` by the new PageElement.
         :param new_child: A PageElement.
         """
         if new_child is None:
@@ -544,7 +544,7 @@ class PageElement(object):
                 "Element has no parent, so 'after' has no meaning.")
         if any(x is self for x in args):
             raise ValueError("Can't insert an element after itself.")
-        
+
         offset = 0
         for successor in args:
             # Extract first so that the index won't be screwed up if they
@@ -895,7 +895,7 @@ class PageElement(object):
         :rtype: bool
         """
         return getattr(self, '_decomposed', False) or False
-            
+
     # Old non-property versions of the generators, for backwards
     # compatibility with BS3.
     def nextGenerator(self):
@@ -919,7 +919,7 @@ class NavigableString(str, PageElement):
 
     When Beautiful Soup parses the markup <b>penguin</b>, it will
     create a NavigableString for the string "penguin".
-    """   
+    """
 
     PREFIX = ''
     SUFFIX = ''
@@ -1037,10 +1037,10 @@ class PreformattedString(NavigableString):
     as comments (the Comment class) and CDATA blocks (the CData
     class).
     """
-    
+
     PREFIX = ''
     SUFFIX = ''
-    
+
     def output_ready(self, formatter=None):
         """Make this string ready for output by adding any subclass-specific
             prefix or suffix.
@@ -1122,7 +1122,7 @@ class Stylesheet(NavigableString):
     """
     pass
 
-    
+
 class Script(NavigableString):
     """A NavigableString representing an executable script (probably
     Javascript).
@@ -1202,7 +1202,7 @@ class Tag(PageElement):
         if ((not builder or builder.store_line_numbers)
             and (sourceline is not None or sourcepos is not None)):
             self.sourceline = sourceline
-            self.sourcepos = sourcepos        
+            self.sourcepos = sourcepos
         if attrs is None:
             attrs = {}
         elif attrs:
@@ -1260,7 +1260,7 @@ class Tag(PageElement):
                 self.interesting_string_types = builder.string_containers[self.name]
             else:
                 self.interesting_string_types = self.DEFAULT_INTERESTING_STRING_TYPES
-            
+
     parserClass = _alias("parser_class")  # BS3
 
     def __copy__(self):
@@ -1384,7 +1384,7 @@ class Tag(PageElement):
             i.contents = []
             i._decomposed = True
             i = n
-           
+
     def clear(self, decompose=False):
         """Wipe out all children of this PageElement by calling extract()
            on them.
@@ -1472,7 +1472,7 @@ class Tag(PageElement):
         if not isinstance(value, list):
             value = [value]
         return value
-    
+
     def has_attr(self, key):
         """Does this PageElement have an attribute with the given name?"""
         return key in self.attrs
@@ -1579,7 +1579,7 @@ class Tag(PageElement):
         """Renders this PageElement as a generic string.
 
         :return: Under Python 2, a UTF-8 bytestring; under Python 3,
-            a Unicode string.        
+            a Unicode string.
         """
         if PY3K:
             return self.decode()
@@ -1735,7 +1735,7 @@ class Tag(PageElement):
             a Unicode string will be returned.
         :param formatter: A Formatter object, or a string naming one of
             the standard formatters.
-        :return: A Unicode string (if encoding==None) or a bytestring 
+        :return: A Unicode string (if encoding==None) or a bytestring
             (otherwise).
         """
         if encoding is None:
@@ -1788,7 +1788,7 @@ class Tag(PageElement):
                 if pretty_print and not preserve_whitespace:
                     s.append("\n")
         return ''.join(s)
-       
+
     def encode_contents(
         self, indent_level=None, encoding=DEFAULT_OUTPUT_ENCODING,
         formatter="minimal"):
@@ -1905,7 +1905,7 @@ class Tag(PageElement):
            Beautiful Soup will use the prefixes it encountered while
            parsing the document.
 
-        :param kwargs: Keyword arguments to be passed into SoupSieve's 
+        :param kwargs: Keyword arguments to be passed into SoupSieve's
            soupsieve.select() method.
 
         :return: A Tag.
@@ -1930,7 +1930,7 @@ class Tag(PageElement):
 
         :param limit: After finding this number of results, stop looking.
 
-        :param kwargs: Keyword arguments to be passed into SoupSieve's 
+        :param kwargs: Keyword arguments to be passed into SoupSieve's
            soupsieve.select() method.
 
         :return: A ResultSet of Tags.
@@ -1938,14 +1938,14 @@ class Tag(PageElement):
         """
         if namespaces is None:
             namespaces = self._namespaces
-        
+
         if limit is None:
             limit = 0
         if soupsieve is None:
             raise NotImplementedError(
                 "Cannot execute CSS selectors because the soupsieve package is not installed."
             )
-            
+
         results = soupsieve.select(selector, self, namespaces, limit, **kwargs)
 
         # We do this because it's more consistent and because
@@ -1993,7 +1993,7 @@ class SoupStrainer(object):
         :param attrs: A dictionary of filters on attribute values.
         :param text: A filter for a NavigableString with specific text.
         :kwargs: A dictionary of filters on attribute values.
-        """        
+        """
         self.name = self._normalize_search_value(name)
         if not isinstance(attrs, dict):
             # Treat a non-dict value for attrs as a search for the 'class'
@@ -2082,7 +2082,7 @@ class SoupStrainer(object):
             # looking at a tag with a different name.
             if markup and not markup.prefix and self.name != markup.name:
                  return False
-            
+
         call_function_with_tag_data = (
             isinstance(self.name, Callable)
             and not isinstance(markup_name, Tag))
@@ -2168,7 +2168,7 @@ class SoupStrainer(object):
             if self._matches(' '.join(markup), match_against):
                 return True
             return False
-        
+
         if match_against is True:
             # True matches any non-None value.
             return markup is not None
@@ -2212,11 +2212,11 @@ class SoupStrainer(object):
                         return True
             else:
                 return False
-        
+
         # Beyond this point we might need to run the test twice: once against
         # the tag's name and once against its prefixed name.
         match = False
-        
+
         if not match and isinstance(match_against, str):
             # Exact string match
             match = markup == match_against

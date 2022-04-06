@@ -25,13 +25,14 @@ repos:
         exclude_types:
           - csv
           - json
-        exclude: ^tests/fixtures/
+        exclude: ^tests/fixtures/|src/libs
   - repo: 'https://github.com/asottile/pyupgrade'
     rev: v2.31.1
     hooks:
       - id: pyupgrade
         args:
           - '--py39-plus'
+        exclude: src/libs
   - repo: 'https://github.com/PyCQA/isort'
     rev: 5.10.1
     hooks:
@@ -40,10 +41,12 @@ repos:
           - '--profile'
           - black
           - '--filter-files'
+        exclude: src/libs
   - repo: 'https://github.com/psf/black'
     rev: 22.1.0
     hooks:
       - id: black
+        exclude: src/libs
   - repo: 'https://github.com/PyCQA/flake8'
     rev: 4.0.1
     hooks:
@@ -55,6 +58,7 @@ repos:
           - flake8-comprehensions
           - flake8-noqa
           - mccabe
+        exclude: src/libs
   - repo: 'https://github.com/pre-commit/mirrors-mypy'
     rev: v0.941
     hooks:
@@ -78,7 +82,7 @@ repos:
       - id: check-executables-have-shebangs
         stages: [manual]
       - id: check-json
-        exclude: (.vscode|.devcontainer)
+        exclude: (.vscode|.devcontainer|src/libs)
   - repo: 'https://github.com/adrienverge/yamllint.git'
     rev: v1.26.3
     hooks:
@@ -88,3 +92,4 @@ repos:
     hooks:
       - id: prettier
         stages: [manual]
+        exclude: src/libs

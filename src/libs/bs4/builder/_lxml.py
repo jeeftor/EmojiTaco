@@ -63,7 +63,7 @@ class LXMLTreeBuilderForXML(TreeBuilder):
     # as the target of parse messages, and those messages don't include
     # line numbers.
     # See: https://bugs.launchpad.net/lxml/+bug/1846906
-    
+
     def initialize_soup(self, soup):
         """Let the BeautifulSoup object know about the standard namespace
         mapping.
@@ -126,7 +126,7 @@ class LXMLTreeBuilderForXML(TreeBuilder):
         self.soup = None
         self.nsmaps = [self.DEFAULT_NSMAPS_INVERTED]
         super(LXMLTreeBuilderForXML, self).__init__(**kwargs)
-        
+
     def _getNsTag(self, tag):
         # Split the namespace URL out of a fully-qualified lxml tag
         # name. Copied from lxml's src/lxml/sax.py.
@@ -160,7 +160,7 @@ class LXMLTreeBuilderForXML(TreeBuilder):
           has undergone character replacement)
 
          Each 4-tuple represents a strategy for converting the
-         document to Unicode and parsing it. Each strategy will be tried 
+         document to Unicode and parsing it. Each strategy will be tried
          in turn.
         """
         is_html = not self.is_xml

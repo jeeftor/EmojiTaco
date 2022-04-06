@@ -113,7 +113,7 @@ class BeautifulSoup(Tag):
     ASCII_SPACES = '\x20\x0a\x09\x0c\x0d'
 
     NO_PARSER_SPECIFIED_WARNING = "No parser was explicitly specified, so I'm using the best available %(markup_type)s parser for this system (\"%(parser)s\"). This usually isn't a problem, but if you run this code on another system, or in a different virtual environment, it may use a different parser and behave differently.\n\nThe code that caused this warning is on line %(line_number)s of the file %(filename)s. To get rid of this warning, pass the additional argument 'features=\"%(parser)s\"' to the BeautifulSoup constructor.\n"
-    
+
     def __init__(self, markup="", features=None, builder=None,
                  parse_only=None, from_encoding=None, exclude_encodings=None,
                  element_classes=None, **kwargs):
@@ -160,7 +160,7 @@ class BeautifulSoup(Tag):
          Beautiful Soup 3. None of these arguments do anything in
          Beautiful Soup 4; they will result in a warning and then be
          ignored.
-         
+
          Apart from this, any keyword arguments passed into the
          BeautifulSoup constructor are propagated to the TreeBuilder
          constructor. This makes it possible to configure a
@@ -230,7 +230,7 @@ class BeautifulSoup(Tag):
         # specify a parser' warning.
         original_builder = builder
         original_features = features
-            
+
         if isinstance(builder, type):
             # A builder class was passed in; it needs to be instantiated.
             builder_class = builder
@@ -276,7 +276,7 @@ class BeautifulSoup(Tag):
                     line_number = caller.f_lineno
                 else:
                     globals = sys.__dict__
-                    line_number= 1                    
+                    line_number= 1
                 filename = globals.get('__file__')
                 if filename:
                     fnl = filename.lower()
@@ -298,7 +298,7 @@ class BeautifulSoup(Tag):
         else:
             if kwargs:
                 warnings.warn("Keyword arguments to the BeautifulSoup constructor will be ignored. These would normally be passed into the TreeBuilder constructor, but a TreeBuilder instance was passed in as `builder`.")
-                    
+
         self.builder = builder
         self.is_xml = builder.is_xml
         self.known_xml = self.is_xml
@@ -491,7 +491,7 @@ class BeautifulSoup(Tag):
 
     def string_container(self, base_class=None):
         container = base_class or NavigableString
-        
+
         # There may be a general override of NavigableString.
         container = self.element_classes.get(
             container, container
@@ -504,7 +504,7 @@ class BeautifulSoup(Tag):
                 self.string_container_stack[-1].name, container
             )
         return container
-        
+
     def new_string(self, s, subclass=None):
         """Create a new NavigableString associated with this BeautifulSoup
         object.
@@ -555,7 +555,7 @@ class BeautifulSoup(Tag):
     def endData(self, containerClass=None):
         """Method called by the TreeBuilder when the end of a data segment
         occurs.
-        """       
+        """
         if self.current_data:
             current_data = ''.join(self.current_data)
             # If whitespace is not preserved, and this string contains
@@ -739,7 +739,7 @@ class BeautifulSoup(Tag):
     def handle_data(self, data):
         """Called by the tree builder when a chunk of textual data is encountered."""
         self.current_data.append(data)
-       
+
     def decode(self, pretty_print=False,
                eventual_encoding=DEFAULT_OUTPUT_ENCODING,
                formatter="minimal"):

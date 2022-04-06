@@ -197,7 +197,7 @@ def build_workflow(workflow_dir, outputdir, overwrite=False, verbose=False):
             log.info("Overwriting existing workflow")
             os.unlink(zippath)
         else:
-            log.error("File '{}' already exists. Use -f to overwrite".format(zippath))
+            log.error(f"File '{zippath}' already exists. Use -f to overwrite")
             return False
 
     # build workflow
@@ -246,7 +246,7 @@ def main(args=None):
     # Build options
     outputdir = os.path.abspath(args.get("--output") or os.curdir)
     workflow_dirs = [os.path.abspath(p) for p in args.get("<workflow-dir>")]
-    log.debug("outputdir : {}, workflow_dirs : {}".format(outputdir, workflow_dirs))
+    log.debug(f"outputdir : {outputdir}, workflow_dirs : {workflow_dirs}")
     errors = False
     verbose = False
     if log.level == logging.DEBUG:

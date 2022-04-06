@@ -33,7 +33,7 @@ class TreeBuilderRegistry(object):
     """A way of looking up TreeBuilder subclasses by their name or by desired
     features.
     """
-    
+
     def __init__(self):
         self.builders_for_feature = defaultdict(list)
         self.builders = []
@@ -109,7 +109,7 @@ class TreeBuilder(object):
     picklable = False
     empty_element_tags = None # A tag will be considered an empty-element
                               # tag when and only when it has no contents.
-    
+
     # A value for these tag/attribute combinations is a space- or
     # comma-separated list of CDATA, rather than a single CDATA.
     DEFAULT_CDATA_LIST_ATTRIBUTES = {}
@@ -120,12 +120,12 @@ class TreeBuilder(object):
     # The textual contents of tags with these names should be
     # instantiated with some class other than NavigableString.
     DEFAULT_STRING_CONTAINERS = {}
-    
+
     USE_DEFAULT = object()
 
     # Most parsers don't keep track of line numbers.
     TRACKS_LINE_NUMBERS = False
-    
+
     def __init__(self, multi_valued_attributes=USE_DEFAULT,
                  preserve_whitespace_tags=USE_DEFAULT,
                  store_line_numbers=USE_DEFAULT,
@@ -158,7 +158,7 @@ class TreeBuilder(object):
          line numbers and positions of the original markup, that
          information will, by default, be stored in each corresponding
          `Tag` object. You can turn this off by passing
-         store_line_numbers=False. If the parser you're using doesn't 
+         store_line_numbers=False. If the parser you're using doesn't
          keep track of this information, then setting store_line_numbers=True
          will do nothing.
         """
@@ -171,11 +171,11 @@ class TreeBuilder(object):
         self.preserve_whitespace_tags = preserve_whitespace_tags
         if store_line_numbers == self.USE_DEFAULT:
             store_line_numbers = self.TRACKS_LINE_NUMBERS
-        self.store_line_numbers = store_line_numbers 
+        self.store_line_numbers = store_line_numbers
         if string_containers == self.USE_DEFAULT:
             string_containers = self.DEFAULT_STRING_CONTAINERS
         self.string_containers = string_containers
-        
+
     def initialize_soup(self, soup):
         """The BeautifulSoup object has been initialized and is now
         being associated with the TreeBuilder.
@@ -183,7 +183,7 @@ class TreeBuilder(object):
         :param soup: A BeautifulSoup object.
         """
         self.soup = soup
-        
+
     def reset(self):
         """Do any work necessary to reset the underlying parser
         for a new document.
@@ -214,7 +214,7 @@ class TreeBuilder(object):
         if self.empty_element_tags is None:
             return True
         return tag_name in self.empty_element_tags
-    
+
     def feed(self, markup):
         """Run some incoming markup through some parsing process,
         populating the `BeautifulSoup` object in self.soup.
@@ -244,7 +244,7 @@ class TreeBuilder(object):
           has undergone character replacement)
 
          Each 4-tuple represents a strategy for converting the
-         document to Unicode and parsing it. Each strategy will be tried 
+         document to Unicode and parsing it. Each strategy will be tried
          in turn.
 
          By default, the only strategy is to parse the markup
@@ -271,7 +271,7 @@ class TreeBuilder(object):
         return fragment
 
     def set_up_substitutions(self, tag):
-        """Set up any substitutions that will need to be performed on 
+        """Set up any substitutions that will need to be performed on
         a `Tag` when it's output as a string.
 
         By default, this does nothing. See `HTMLTreeBuilder` for a
@@ -379,7 +379,7 @@ class HTMLTreeBuilder(TreeBuilder):
     empty_element_tags = set([
         # These are from HTML5.
         'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr',
-        
+
         # These are from earlier versions of HTML and are removed in HTML5.
         'basefont', 'bgsound', 'command', 'frame', 'image', 'isindex', 'nextid', 'spacer'
     ])
@@ -404,8 +404,8 @@ class HTMLTreeBuilder(TreeBuilder):
         'style': Stylesheet,
         'script': Script,
         'template': TemplateString,
-    }    
-    
+    }
+
     # The HTML standard defines these attributes as containing a
     # space-separated list of values, not a single value. That is,
     # class="foo bar" means that the 'class' attribute has two values,
@@ -431,7 +431,7 @@ class HTMLTreeBuilder(TreeBuilder):
         }
 
     DEFAULT_PRESERVE_WHITESPACE_TAGS = set(['pre', 'textarea'])
-    
+
     def set_up_substitutions(self, tag):
         """Replace the declared encoding in a <meta> tag with a placeholder,
         to be substituted when the tag is output to a string.
@@ -499,7 +499,7 @@ class ParserRejectedMarkup(Exception):
             e = message_or_exception
             message_or_exception = "%s: %s" % (e.__class__.__name__, str(e))
         super(ParserRejectedMarkup, self).__init__(message_or_exception)
-            
+
 # Builders are registered in reverse order of priority, so that custom
 # builder registrations will take precedence. In general, we want lxml
 # to take precedence over html5lib, because it's faster. And we only

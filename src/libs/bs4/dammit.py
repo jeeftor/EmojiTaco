@@ -2322,7 +2322,7 @@ class EntitySubstitution(object):
         multiple entity names, we try to choose the most commonly-used
         name.
 
-        name_to_unicode: A mapping of entity names like "angmsdaa" to 
+        name_to_unicode: A mapping of entity names like "angmsdaa" to
         Unicode strings like "⦨".
 
         named_entity_re: A regular expression matching (almost) any
@@ -2333,7 +2333,7 @@ class EntitySubstitution(object):
 
         short_entities = set()
         long_entities_by_first_character = defaultdict(set)
-        
+
         for name_with_semicolon, character in sorted(html5.items()):
             # "It is intentional, for legacy compatibility, that many
             # code points have multiple character reference names. For
@@ -2410,13 +2410,13 @@ class EntitySubstitution(object):
                 # This finds, e.g. \u2267 but only if it is _not_
                 # followed by \u0338.
                 particles.add("%s(?![%s])" % (short, ignore))
-        
+
         for long_entities in list(long_entities_by_first_character.values()):
             for long_entity in long_entities:
                 particles.add(long_entity)
 
         re_definition = "(%s)" % "|".join(particles)
-                
+
         # If an entity shows up in both html5 and codepoint2name, it's
         # likely that HTML5 gives it several different names, such as
         # 'rsquo' and 'rsquor'. When converting Unicode characters to
@@ -2670,7 +2670,7 @@ class EncodingDetector:
         for e in self.user_encodings:
             if self._usable(e, tried):
                 yield e
-            
+
         # Look within the document for an XML or HTML encoding
         # declaration.
         if self.declared_encoding is None:
@@ -3335,4 +3335,3 @@ class UnicodeDammit:
             # Store the final chunk.
             byte_chunks.append(in_bytes[chunk_start:])
         return b''.join(byte_chunks)
-

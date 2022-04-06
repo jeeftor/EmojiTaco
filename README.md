@@ -1,4 +1,3 @@
-
 [![Build Status](https://travis-ci.org/jeeftor/EmojiTaco.svg?branch=master)](https://travis-ci.org/jeeftor/EmojiTaco)
 
 <a href="https://www.buymeacoffee.com/jeef"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a taco&emoji=🌮&slug=jeef&button_colour=FFDD00&font_colour=000000&font_family=Comic&outline_colour=000000&coffee_colour=ffffff" /></a>

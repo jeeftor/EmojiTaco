@@ -11,8 +11,8 @@ from workflow.background import is_running, run_in_background
 def string_from_percent(pct: float) -> str | None:
     """Return a fancy string to show in the workflow from the count item."""
     # blue = "\\U0001F535\\U0000FE0F"
-    white = u"\U000026AA\U0000FE0F"
-    black = u"\U000026AB\U0000FE0F"
+    white = "\U000026AA\U0000FE0F"
+    black = "\U000026AB\U0000FE0F"
 
     ret: str = (
         white
@@ -126,4 +126,3 @@ if __name__ == "__main__":
     log = wf.logger
     log.info("Emoji Init Started")
     sys.exit(wf.run(main))
-

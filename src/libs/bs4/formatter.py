@@ -57,7 +57,7 @@ class Formatter(EntitySubstitution):
            XML markup and Formatter.HTML if you are formatting HTML markup.
 
         :param entity_substitution: A function to call to replace special
-           characters with XML/HTML entities. For examples, see 
+           characters with XML/HTML entities. For examples, see
            bs4.dammit.EntitySubstitution.substitute_html and substitute_xml.
         :param void_element_close_prefix: By default, void elements
            are represented as <tag/> (XML rules) rather than <tag>
@@ -77,7 +77,7 @@ class Formatter(EntitySubstitution):
             language, cdata_containing_tags, 'cdata_containing_tags'
         )
         self.empty_attributes_are_booleans=empty_attributes_are_booleans
-        
+
     def substitute(self, ns):
         """Process a string that needs to undergo entity substitution.
         This may be a string encountered in an attribute value or as
@@ -106,10 +106,10 @@ class Formatter(EntitySubstitution):
            or numeric entities.
         """
         return self.substitute(value)
-    
+
     def attributes(self, tag):
         """Reorder a tag's attributes however you want.
-        
+
         By default, attributes are sorted alphabetically. This makes
         behavior consistent between Python 2 and Python 3, and preserves
         backwards compatibility with older versions of Beautiful Soup.
@@ -124,14 +124,14 @@ class Formatter(EntitySubstitution):
             (k, (None if self.empty_attributes_are_booleans and v == '' else v))
             for k, v in list(tag.attrs.items())
         )
-   
+
 class HTMLFormatter(Formatter):
     """A generic Formatter for HTML."""
     REGISTRY = {}
     def __init__(self, *args, **kwargs):
         return super(HTMLFormatter, self).__init__(self.HTML, *args, **kwargs)
 
-    
+
 class XMLFormatter(Formatter):
     """A generic Formatter for XML."""
     REGISTRY = {}

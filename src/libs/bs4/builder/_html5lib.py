@@ -59,7 +59,7 @@ class HTML5TreeBuilder(HTMLTreeBuilder):
     # html5lib can tell us which line number and position in the
     # original file is the source of an element.
     TRACKS_LINE_NUMBERS = True
-    
+
     def prepare_markup(self, markup, user_specified_encoding,
                        document_declared_encoding=None, exclude_encodings=None):
         # Store the user-specified encoding for use later on.
@@ -85,7 +85,7 @@ class HTML5TreeBuilder(HTMLTreeBuilder):
             else:
                 extra_kwargs['encoding'] = self.user_specified_encoding
         doc = parser.parse(markup, **extra_kwargs)
-        
+
         # Set the character encoding detected by the tokenizer.
         if isinstance(markup, str):
             # We need to special-case this because html5lib sets
@@ -100,7 +100,7 @@ class HTML5TreeBuilder(HTMLTreeBuilder):
                 original_encoding = original_encoding.name
             doc.original_encoding = original_encoding
         self.underlying_builder.parser = None
-            
+
     def create_treebuilder(self, namespaceHTMLElements):
         self.underlying_builder = TreeBuilderForHtml5lib(
             namespaceHTMLElements, self.soup,
@@ -114,7 +114,7 @@ class HTML5TreeBuilder(HTMLTreeBuilder):
 
 
 class TreeBuilderForHtml5lib(treebuilder_base.TreeBuilder):
-    
+
     def __init__(self, namespaceHTMLElements, soup=None,
                  store_line_numbers=True, **kwargs):
         if soup:
@@ -136,7 +136,7 @@ class TreeBuilderForHtml5lib(treebuilder_base.TreeBuilder):
         # object, which we can use to track the current line number.
         self.parser = None
         self.store_line_numbers = store_line_numbers
-        
+
     def documentClass(self):
         self.soup.reset()
         return Element(self.soup, self.soup, None)
