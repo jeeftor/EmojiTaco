@@ -31,7 +31,7 @@ then
     git push
 
     echo "Running..."
-    echo python release.py ${TEXT_ARRRAY[2]} ${TEXT_ARRRAY[1]}
+    echo python3 release.py ${TEXT_ARRRAY[2]} ${TEXT_ARRRAY[1]}
     echo ""
-    python release.py ${TEXT_ARRRAY[2]} ${TEXT_ARRRAY[1]}
+    python3 release.py ${TEXT_ARRRAY[2]} ${TEXT_ARRRAY[1]}
 fi
